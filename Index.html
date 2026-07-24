@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Geletaw Sahle — AI Research, Neurotechnology & Digital Health Portfolio showcasing EEG foundation models, AI agents, and CDSS architecture.">
+<meta property="og:title" content="Geletaw Sahle — AI Research & Neurotechnology">
+<meta property="og:description" content="PhD researcher specializing in EEG Foundation Models, Neurotechnology, Digital Health AI, and Agentic Systems. Marie Skłodowska-Curie Postdoctoral Fellow.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="linkedin_banner_light_2x (8).png">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Geletaw Sahle">
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#070B0A">
+<link rel="apple-touch-icon" href="linkedin_banner_light_2x (8).png">
+<title>Geletaw Sahle — AI Research &amp; Neurotechnology</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<style>
+  :root{
+    --bg-1:#070B0A;
+    --bg-2:#0B1412;
+    --panel-bg:rgba(9,15,14,0.94);
+    --card-bg:rgba(22,32,29,0.55);
+    --ink:#E9F3EF;
+    --sub:#7E9C93;
+    --teal:#4FD8C4;
+    --amber:#FFB454;
+    --pulse:#FF6B57;
+    --line:rgba(79,216,196,0.18);
+    --mono:'JetBrains Mono', monospace;
+    --sans:'IBM Plex Sans', sans-serif;
+  }
+
+  body.light-theme{
+    --bg-1: #F3F7F8;
+    --bg-2: #E5EEF1;
+    --panel-bg: rgba(246, 250, 251, 0.95);
+    --card-bg: rgba(255, 255, 255, 0.6);
+    --ink: #0B3350;
+    --sub: #3C5B6B;
+    --teal: #1C8E93;
+    --amber: #D97706;
+    --pulse: #E11D48;
+    --line: rgba(28, 142, 147, 0.2);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  html,body{width:100vw;height:100vh;overflow:hidden;}
+  /* iOS Safari: use dynamic viewport height to avoid address-bar overlap */
+  @supports (height: 100dvh){
+    html,body{ height:100dvh; }
+  }
+
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 20% 15%, rgba(79,216,196,0.06), transparent 45%),
+      radial-gradient(circle at 80% 85%, rgba(255,180,84,0.04), transparent 40%),
+      linear-gradient(160deg, var(--bg-2), var(--bg-1));
+    position:relative;
+  }
+
+  /* faint instrument dot-grid */
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background-image:radial-gradient(rgba(79,216,196,0.10) 1px, transparent 1px);
+    background-size:28px 28px;
+    pointer-events:none;
+    opacity:0.5;
+    z-index:0;
+  }
+
+  /* corner identity mark */
+  .id-mark{
+    position:fixed;
+    top:34px;
+    left:40px;
+    z-index:50;
+    font-family:var(--mono);
+    line-height:1.5;
+  }
+  .id-mark .name{
+    font-size:0.95rem;
+    font-weight:600;
+    letter-spacing:2px;
+    color:var(--ink);
+    margin:0;
+  }
+  .id-mark .role{
+    font-size:0.68rem;
+    letter-spacing:1.5px;
+    color:var(--sub);
+    text-transform:uppercase;
+    max-width:52vw;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+
+  /* status tag, bottom-left */
+  .status-tag{
+    position:fixed;
+    bottom:64px;
+    left:40px;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-family:var(--mono);
+    font-size:0.68rem;
+    letter-spacing:1.5px;
+    color:var(--sub);
+    text-transform:uppercase;
+  }
+  .status-dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--teal);
+    box-shadow:0 0 8px var(--teal);
+    animation:breathe 2.4s ease-in-out infinite;
+  }
+  @keyframes breathe{
+    0%,100%{opacity:0.4; transform:scale(0.85);}
+    50%{opacity:1; transform:scale(1);}
+  }
+
+  main{
+    display:flex;
+    width:100vw;height:100vh;
+    position:relative;
+    z-index:1;
+    transition:padding-right 0.55s cubic-bezier(0.16,1,0.3,1);
+  }
+  main.panel-open{ padding-right:460px; }
+
+  .svg-container{
+    flex:1;height:100%;
+    position:relative;
+    transition:all 0.55s cubic-bezier(0.16,1,0.3,1);
+    overflow:hidden;
+  }
+
+  #d3-canvas { width:100%; height:100%; display:block; cursor:grab; outline:none; touch-action:none; -webkit-user-select:none; }
+  #d3-canvas:active { cursor:grabbing; }
+
+  /* ── Artistic background panels: RESEARCH (left) + INDUSTRY (right) ── */
+  .bg-panel {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 50%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .bg-panel-research { left: 0; }
+  .bg-panel-industry { right: 0; }
+
+  /* Radial glow bloom — matches existing accent tokens */
+  .bg-panel-research::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 55% at 0% 50%,
+      rgba(79,216,196,0.065) 0%, transparent 72%);
+  }
+  .bg-panel-industry::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 55% at 100% 50%,
+      rgba(245,158,11,0.065) 0%, transparent 72%);
+  }
+
+  /* Large ghost watermark word — vertical, hugging the screen edge */
+  .bg-word {
+    position: absolute;
+    top: 50%;
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: clamp(72px, 9vw, 130px);
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    white-space: nowrap;
+    user-select: none;
+    opacity: 0.072;
+  }
+  .bg-panel-research .bg-word {
+    left: 0;
+    color: var(--teal);
+    writing-mode: vertical-lr;
+    transform: translateY(-50%) rotate(180deg); /* reads bottom-to-top */
+  }
+  .bg-panel-industry .bg-word {
+    right: 0;
+    color: var(--amber);
+    writing-mode: vertical-rl;
+    transform: translateY(-50%); /* reads top-to-bottom */
+  }
+
+  /* Floating monospace stat lines */
+  .bg-stats {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 3vh, 40px);
+  }
+  .bg-panel-research .bg-stats { left: clamp(52px, 7vw, 100px); }
+  .bg-panel-industry .bg-stats { right: clamp(52px, 7vw, 100px); text-align: right; }
+
+  .bg-stat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(9px, 0.75vw, 12px);
+    letter-spacing: 0.18em;
+    line-height: 1.3;
+    opacity: 0;
+    animation: statFadeIn 1.2s ease forwards;
+    white-space: nowrap;
+    user-select: none;
+  }
+  .bg-panel-research .bg-stat { color: var(--teal); }
+  .bg-panel-industry .bg-stat { color: var(--amber); }
+
+  /* Staggered fade-in for each stat */
+  .bg-stat:nth-child(1) { animation-delay: 1.0s; }
+  .bg-stat:nth-child(2) { animation-delay: 1.4s; }
+  .bg-stat:nth-child(3) { animation-delay: 1.8s; }
+  .bg-stat:nth-child(4) { animation-delay: 2.2s; }
+
+  @keyframes statFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 0.055; transform: translateY(0); }
+  }
+
+  /* Hide on mobile — would crowd small screens */
+  @media (max-width: 768px) {
+    .bg-panel { display: none; }
+  }
+
+  .node { cursor:pointer; outline:none; user-select:none; -webkit-user-select:none; }
+  .node circle { transition: fill 0.2s, stroke 0.2s, stroke-width 0.2s, filter 0.2s; }
+  .node text { transition: fill 0.2s, font-weight 0.2s; }
+
+  .node:hover circle.core,
+  .node.active-node circle.core,
+  .node:focus-visible circle.core{
+    fill:var(--teal) !important;
+    stroke:var(--amber) !important;
+    stroke-width:2.5 !important;
+    filter: drop-shadow(0 0 8px var(--amber));
+  }
+  .node:hover text,
+  .node.active-node text,
+  .node:focus-visible text{
+    fill:var(--amber) !important;
+    font-weight:700 !important;
+  }
+
+  .link { stroke:var(--teal); stroke-opacity:0.3; stroke-width:1.5px; }
+
+  @keyframes node-pulse{
+    0%{ stroke-width:1.2; stroke-opacity:0.55; }
+    50%{ stroke-width:5; stroke-opacity:0.1; }
+    100%{ stroke-width:1.2; stroke-opacity:0.55; }
+  }
+  .pulse-ring{
+    animation:node-pulse 2.6s infinite;
+    stroke:var(--teal);
+    fill:none;
+  }
+
+  /* terminal hint */
+  .user-hint{
+    position:fixed;
+    top:34px; left:50%; transform:translateX(-50%);
+    background:rgba(9,15,14,0.85);
+    border:1px solid var(--line);
+    color:var(--teal);
+    padding:9px 20px;
+    border-radius:4px;
+    font-family:var(--mono);
+    font-size:0.75rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    z-index:100;
+    transition:opacity 0.4s ease, transform 0.4s ease;
+  }
+  .user-hint.hidden{ opacity:0; transform:translate(-50%,-14px) translateX(0); pointer-events:none; }
+  .user-hint .cursor{ animation:blink 1.1s step-end infinite; }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  /* theme toggle */
+  .theme-toggle{
+    position:fixed;
+    top:34px;
+    right:40px;
+    z-index:50;
+    background:var(--bg-2);
+    border:1px solid var(--line);
+    color:var(--ink);
+    width: 40px;
+    height: 40px;
+    border-radius:50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    transition:color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .theme-toggle:hover{
+    color:var(--teal);
+    border-color:var(--teal);
+  }
+
+  /* side panel */
+  .side-panel{
+    position:fixed; top:0; right:0;
+    width:460px; height:100vh;
+    background:var(--panel-bg);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border-left:1px solid var(--line);
+    box-shadow:-20px 0 60px rgba(0,0,0,0.5);
+    transform:translateX(100%);
+    transition:transform 0.55s cubic-bezier(0.16,1,0.3,1);
+    z-index:1000;
+    display:flex; flex-direction:column;
+  }
+  .side-panel.active{ transform:translateX(0); }
+
+  .panel-header{
+    padding:36px 36px 20px;
+    border-bottom:1px solid var(--line);
+  }
+  .panel-header-top{
+    display:flex; justify-content:space-between; align-items:flex-start;
+  }
+  .panel-eyebrow{
+    font-family:var(--mono);
+    font-size:0.68rem;
+    letter-spacing:2px;
+    color:var(--sub);
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  .panel-title{
+    font-family:var(--mono);
+    color:var(--ink);
+    font-size:1.5rem;
+    font-weight:600;
+    letter-spacing:0.5px;
+  }
+  .panel-close{
+    cursor:pointer;
+    font-family:var(--mono);
+    font-size:0.95rem;
+    color:var(--sub);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:0 12px;
+    min-width:44px;
+    min-height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    transition:color 0.2s, border-color 0.2s;
+  }
+  .panel-close:hover{ color:var(--teal); border-color:var(--teal); }
+
+  .panel-wave{ margin-top:16px; height:28px; width:100%; }
+  .panel-wave path{
+    fill:none; stroke:var(--teal); stroke-width:1.4;
+    stroke-dasharray:260; stroke-dashoffset:260;
+    animation:trace 1.1s ease-out forwards;
+  }
+  @keyframes trace{ to{ stroke-dashoffset:0; } }
+
+  .panel-content{ padding:28px 36px 40px; overflow-y:auto; flex:1; }
+
+  .panel-back{
+    display:none; align-items:center; gap:6px;
+    background:none; border:none; color:var(--sub);
+    font-family:var(--mono); font-size:0.72rem; letter-spacing:1px;
+    text-transform:uppercase; cursor:pointer;
+    margin-bottom:22px; transition:color 0.2s;
+  }
+  .panel-back:hover{ color:var(--teal); }
+  .panel-back.visible{ display:flex; }
+
+  .media-placeholder{
+    width:100%; height:150px;
+    border:1px dashed var(--line);
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:28px;
+    color:var(--sub);
+    font-family:var(--mono);
+    font-size:0.78rem;
+    text-align:center;
+    padding:16px;
+    background:linear-gradient(160deg, rgba(79,216,196,0.05), transparent);
+  }
+  .bars{ display:flex; align-items:flex-end; gap:3px; height:22px; margin:0 auto 10px; width:fit-content; }
+  .bars span{
+    width:3px; background:var(--teal); border-radius:1px;
+    animation:barwave 1.2s ease-in-out infinite;
+  }
+  .bars span:nth-child(1){ height:8px; animation-delay:0s; }
+  .bars span:nth-child(2){ height:18px; animation-delay:0.1s; }
+  .bars span:nth-child(3){ height:12px; animation-delay:0.2s; }
+  .bars span:nth-child(4){ height:20px; animation-delay:0.3s; }
+  .bars span:nth-child(5){ height:9px; animation-delay:0.4s; }
+  @keyframes barwave{ 0%,100%{ transform:scaleY(0.5); } 50%{ transform:scaleY(1); } }
+
+  .panel-desc{
+    font-size:1rem; line-height:1.7; color:var(--sub);
+    margin-bottom:30px;
+  }
+
+  .portfolio-grid{ display:flex; flex-direction:column; gap:12px; }
+
+  .portfolio-card{
+    background:var(--card-bg);
+    padding:20px 22px;
+    border-radius:6px;
+    border:1px solid var(--line);
+    border-left:2px solid var(--teal);
+    cursor:pointer;
+    transition:transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .portfolio-card:hover{
+    transform:translateX(3px);
+    border-color:var(--amber);
+    border-left-color:var(--amber);
+    background:rgba(255,180,84,0.06);
+  }
+  .card-title{
+    color:var(--ink); font-family:var(--mono);
+    font-size:0.92rem; font-weight:600; letter-spacing:0.5px;
+    margin-bottom:6px;
+  }
+  .card-desc{ color:var(--sub); font-size:0.88rem; line-height:1.55; }
+
+  @media (max-width:768px){
+    main.panel-open{ padding-right:0; }
+    .side-panel{ width:100vw; }
+    .svg-container{ padding:14px; justify-content:flex-start; }
+    .theme-toggle{ top:16px; right:16px; width:44px; height:44px; }
+    .id-mark{ top:16px; left:16px; max-width:52vw; }
+    .id-mark .role{ max-width:calc(52vw - 8px); font-size:0.65rem; letter-spacing:0.8px; }
+    .id-mark .name{ font-size:0.72rem; letter-spacing:0.8px; }
+    .status-tag{ display:none; }
+    /* user-hint above re-center button */
+    .user-hint{ top:auto; bottom:120px; font-size:0.62rem; padding:6px 12px; left:50%; transform:translateX(-50%); }
+    .panel-content{ padding:20px 16px 32px; }
+    .panel-header{ padding:24px 16px 16px; }
+    .download-cv-btn{ display:none; }
+    .seeking-badge{ display:none; }
+    /* Thinner links proportional to smaller nodes */
+    .link{ stroke-width:1px !important; }
+  }
+
+  /* Hide header extras on ALL handheld sizes (phones + phablets) */
+  @media (max-width:900px){
+    .download-cv-btn{ display:none !important; }
+    .seeking-badge{ display:none !important; }
+  }
+
+
+  @media (prefers-reduced-motion: reduce){
+    .status-dot, .pulse-ring, .bars span,
+    .panel-wave path, .user-hint .cursor{ animation:none !important; }
+  }
+
+  /* Re-center button (mobile only) */
+  .recenter-btn {
+    position:fixed; bottom:68px; right:16px; z-index:50;
+    width:40px; height:40px; border-radius:50%;
+    background:var(--bg-2); border:1px solid var(--line);
+    color:var(--teal); display:none;
+    align-items:center; justify-content:center;
+    cursor:pointer; transition:all 0.2s;
+    font-size:18px;
+  }
+  .recenter-btn:hover { border-color:var(--teal); background:rgba(79,216,196,0.1); }
+  @media (max-width:768px) {
+    .recenter-btn { display:flex; }
+  }
+  .btn-teal {
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(79,216,196,0.1); color:var(--teal);
+    border:1px solid var(--teal);
+    padding:12px 24px; border-radius:6px;
+    text-decoration:none; font-weight:600;
+    font-family:'JetBrains Mono',monospace; font-size:14px;
+    transition:all 0.2s ease; cursor:pointer;
+  }
+  .btn-teal:hover{ background:var(--teal); color:var(--bg-1); transform:translateY(-2px); }
+
+  .btn-teal-sm {
+    display:inline-block;
+    background:rgba(79,216,196,0.1); color:var(--teal);
+    border:1px solid var(--teal);
+    padding:8px 16px; border-radius:4px;
+    text-decoration:none; font-size:12px; font-weight:600;
+    font-family:'JetBrains Mono',monospace;
+    transition:all 0.2s; text-align:center;
+  }
+  .btn-teal-sm:hover{ background:var(--teal); color:var(--bg-1); }
+
+  .btn-teal-xs {
+    display:inline-block;
+    background:rgba(79,216,196,0.1); color:var(--teal);
+    border:1px solid var(--teal);
+    padding:6px 12px; border-radius:4px;
+    text-decoration:none; font-size:11px; font-weight:600;
+    font-family:'JetBrains Mono',monospace;
+    transition:all 0.2s;
+  }
+  .btn-teal-xs:hover{ background:var(--teal); color:var(--bg-1); }
+
+  .btn-amber {
+    display:inline-flex; align-items:center; gap:6px;
+    background:rgba(255,180,84,0.1); color:var(--amber);
+    border:1px solid var(--amber);
+    padding:8px 20px; border-radius:6px;
+    text-decoration:none; font-weight:700;
+    font-family:'JetBrains Mono',monospace; font-size:13px;
+    letter-spacing:0.5px; transition:all 0.2s ease; cursor:pointer;
+  }
+  .btn-amber:hover{ background:var(--amber); color:var(--bg-1); transform:translateY(-1px); }
+
+  /* ── Button utility classes (CSS-driven hover, respects light theme) ── */
+  .download-cv-btn {
+    position:fixed; top:34px; right:90px; z-index:50;
+    display:flex; align-items:center; gap:6px;
+    background:rgba(255,180,84,0.12); color:var(--amber);
+    border:1px solid rgba(255,180,84,0.5);
+    padding:0 14px; height:40px; border-radius:6px;
+    text-decoration:none; font-family:var(--mono);
+    font-size:0.72rem; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase; transition:all 0.2s ease;
+    white-space:nowrap;
+  }
+  .download-cv-btn:hover{ background:var(--amber); color:var(--bg-1); border-color:var(--amber); }
+
+  /* Seeking badge (under id-mark) */
+  .seeking-badge {
+    display:inline-flex; align-items:center; gap:7px;
+    margin-top:8px;
+    background:rgba(79,216,196,0.08);
+    border:1px solid rgba(79,216,196,0.25);
+    border-radius:4px; padding:5px 10px;
+    font-family:var(--mono); font-size:0.62rem;
+    letter-spacing:1px; text-transform:uppercase;
+    color:var(--teal); white-space:nowrap;
+  }
+  .seeking-dot {
+    width:6px; height:6px; border-radius:50%;
+    background:var(--teal); flex-shrink:0;
+    animation:breathe 2.4s ease-in-out infinite;
+  }
+
+  /* Video loading skeleton */
+  .video-skeleton {
+    width:100%; height:190px; border-radius:4px;
+    background:linear-gradient(90deg, rgba(79,216,196,0.05) 25%, rgba(79,216,196,0.12) 50%, rgba(79,216,196,0.05) 75%);
+    background-size:200% 100%;
+    animation:shimmer 1.5s infinite;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:20px; border:1px solid var(--line);
+  }
+  @keyframes shimmer{ 0%{background-position:200% 0;} 100%{background-position:-200% 0;} }
+
+  /* News Ticker */
+  .news-ticker-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 15, 20, 0.8);
+    border-top: 1px solid rgba(79, 216, 196, 0.15);
+    padding: 10px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    z-index: 90;
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+  }
+  
+  .news-ticker {
+    display: inline-block;
+    animation: ticker 30s linear infinite;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    will-change: transform;
+  }
+  
+  .news-ticker:hover {
+    animation-play-state: paused;
+  }
+  
+  @keyframes ticker {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
+  }
+  
+  .ticker-item-1 { color: #4fd8c4; margin-right: 64px; display: inline-flex; align-items: center; }
+  .ticker-item-2 { color: #FFB454; margin-right: 64px; display: inline-flex; align-items: center; }
+  .ticker-icon { margin-right: 8px; font-size: 18px; }
+</style>
+</head>
+<body>
+
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><span class="material-symbols-outlined" style="font-size:20px;">light_mode</span></button>
+
+  <!-- Download CV Button -->
+  <a class="download-cv-btn" id="downloadCvBtn" href="#" aria-label="Download CV"
+     onclick="alert('CV PDF coming soon! In the meantime, please connect via LinkedIn or Email.')">
+    <span class="material-symbols-outlined" style="font-size:16px;">download</span>
+    Download CV
+  </a>
+
+  <div class="sr-only" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;">
+    <h2>Portfolio Outline</h2>
+    <p>Domains: Agents, Research, Data Scientist, Digital Health, Neurotechnology.</p>
+  </div>
+
+  <div class="id-mark">
+    <h1 class="name">Geletaw Sahle Tegenaw (Ph.D.)</h1>
+    <!-- <div class="role">Researcher • Neurotechnology • Health Informatics • AI Systems &amp; Digital Innovation</div> -->
+    <div class="seeking-badge" title="Open to: Senior AI Researcher, Applied ML Engineer, Neurotechnology Specialist">
+      <span class="seeking-dot"></span>
+      <!-- OPEN TO AI/ML &amp; RESEARCH &amp; TECHNICAL  ROLES -->
+      INTERESTED IN AI/ML, RESEARCH &amp; INNOVATION
+    </div>
+  </div>
+
+  <!-- Status tag restored with live status -->
+  <div class="status-tag" id="statusTag">
+    <span class="status-dot"></span>
+    <span>Marie Curie Fellow • 2024–2026</span>
+  </div>
+
+  <div class="user-hint" id="userHint">
+    <span class="material-symbols-outlined" style="font-size:18px; vertical-align:middle; margin-right:6px;">touch_app</span>
+    <span style="vertical-align:middle;">Explore Nodes</span>
+  </div>
+
+  <!-- Mobile re-center button -->
+  <button class="recenter-btn" id="recenterBtn" aria-label="Re-center graph">
+    <span class="material-symbols-outlined" style="font-size:20px;">center_focus_strong</span>
+  </button>
+
+  <main id="main-view">
+
+    <!-- ── Artistic bg: RESEARCH (left) ── -->
+    <div class="bg-panel bg-panel-research" aria-hidden="true">
+      <span class="bg-word">RESEARCH</span>
+      <div class="bg-stats">
+        <span class="bg-stat">25+ PUBLICATIONS</span>
+        <span class="bg-stat">10+ GRANTS &amp; FELLOWSHIPS</span>
+        <span class="bg-stat">4 COUNTRIES: IRELAND · ETHIOPIA · BELIGIUM · ITALY</span>
+        <span class="bg-stat">PhD · VUB · 2023</span>
+      </div>
+    </div>
+
+    <!-- ── Artistic bg: INDUSTRY (right) ── -->
+    <div class="bg-panel bg-panel-industry" aria-hidden="true">
+      <span class="bg-word">INDUSTRY</span>
+      <div class="bg-stats">
+        <span class="bg-stat">5+ YRS EXPERIENCE</span>
+        <!-- <span class="bg-stat">CLINICAL AI &amp; DIGITAL HEALTH</span> -->
+        <!-- <span class="bg-stat">IRELAND · ETHIOPIA · BELIGIUM · ITALY</span> -->
+        <!-- <span class="bg-stat">DEPLOYED SYSTEMS</span> -->
+      </div>
+    </div>
+
+    <svg style="position:absolute; bottom:0; left:0; width:100%; height:120px; pointer-events:none; z-index:0; opacity:0.6;" viewBox="0 0 1500 120" preserveAspectRatio="none">
+      <g stroke="var(--teal)" stroke-width="1.2" fill="none" opacity="0.25">
+        <path id="eeg-path">
+          <animateTransform attributeName="transform" type="translate" from="0 0" to="-3000 0" dur="30s" repeatCount="indefinite" />
+        </path>
+      </g>
+    </svg>
+    <div class="svg-container" style="z-index:1;">
+      <svg id="d3-canvas" role="img" aria-label="Interactive Network Diagram"></svg>
+    </div>
+  </main>
+
+  <aside class="side-panel" id="sidePanel" aria-hidden="true">
+    <div class="panel-header">
+      <div class="panel-header-top">
+        <div>
+          <div class="panel-eyebrow" id="panelEyebrow">Domain</div>
+          <h2 class="panel-title" id="panelTitle">—</h2>
+        </div>
+        <span class="panel-close" id="closePanel" role="button" tabindex="0" aria-label="Close panel">ESC ✕</span>
+      </div>
+      <svg class="panel-wave" id="panelWave" viewBox="0 0 300 28" preserveAspectRatio="none"></svg>
+    </div>
+    <div class="panel-content">
+      <button class="panel-back" id="panelBackBtn">← Back</button>
+      <div id="panelMediaContainer"></div>
+      <p class="panel-desc" id="panelDesc">Description goes here.</p>
+      <div class="portfolio-grid" id="panelPortfolio"></div>
+    </div>
+  </aside>
+
+<script>
+  const nodeDB = {
+    'agents': { type:'domain', icon:'smart_toy', title:'AGENTIC AI SYSTEMS', desc:'Development of autonomous AI agents designed for specific clinical and geospatial operations.', children:['agents-geo','agents-ifu'] },
+    'research': { type:'domain', icon:'science', title:'RESEARCH', desc:'Foundational scientific research driving methodology and technological innovation. Publications span Neurotechnology, Digital Health, and Spatiotemporal AI.', children:['research-meth','research-inno','research-stat','research-data'] },
+    'experience': { type:'link', icon:'work_history', title:'EXPERIENCE', desc:'Professional timeline, fellowships, and research affiliations.', color:'#FFB454' },
+    'data-scientist': { type:'domain', icon:'bar_chart', title:'DATA SCIENCE & MULTIMODAL AI', desc:'Applying robust statistical modeling and ML to derive actionable business intelligence.', children:['ds-bi','ds-mkt','ds-cc','ds-ad','ds-multi'] },
+    'digital-health': { type:'domain', icon:'health_and_safety', title:'DIGITAL HEALTH', desc:'Integrating technology into healthcare to optimize patient pathways and clinical decision-making.', children:['dh-cdss','dh-hmis','dh-stdf'] },
+    'neurotech': { type:'domain', icon:'neurology', title:'NEUROTECHNOLOGY', desc:'Pioneering work in brain-computer interfaces and foundation models for raw EEG signals.', children:['nt-studio','nt-adhd','nt-sz'] },
+    'skills': { type:'link', icon:'construction', title:'SKILLS', desc:'Core competencies, frameworks, and methodologies across AI and healthcare.', color:'#FFB454' },
+
+    'nt-studio': { type:'domain', icon:'hub', title:'NEUROBENCH STUDIO', parent:'neurotech', desc:'A comprehensive suite for neurotechnology development and MLOps.', children:['nt-conv','nt-mlops','nt-rt','nt-site','nt-gh'] },
+
+    'agents-geo': { type:'leaf', icon:'map', parent:'agents', title:'GEO AGENT', desc:'Generative Engine Optimization for AI visibility tracking and trust.', media:'geo.png' },
+    'agents-ifu': { type:'leaf', icon:'menu_book', parent:'agents', title:'IFU AGENT', desc:'Instruction For Use (IFU) agent designed to interact with product/device documentation. Automates compliance checks and provides conversational querying.', media:'ifu.png' },
+
+    'fm-llm': { type:'domain', icon:'psychology', title:'FOUNDATION MODELS & LLMs', desc:'Developing scalable foundation models and large language models tailored for specialized domains.', children:['fm-eeg'] },
+    'fm-eeg': { type:'leaf', icon:'waves', parent:'fm-llm', title:'EEG FOUNDATION MODEL', desc:'Pre-trained foundation models leveraging massive raw EEG datasets to generalize across neurological prediction tasks.', media:'foundation-model-inference-screenshot.mp4' },
+
+    'research-meth': { type:'leaf', icon:'architecture', parent:'research', title:'ADVANCED METHODOLOGY', desc:'Developing novel algorithms and frameworks for complex problem-solving. Focuses on pushing the boundaries of what is computationally feasible.' },
+    'research-inno': { type:'leaf', icon:'lightbulb', parent:'research', title:'INNOVATION', desc:'Translating theoretical concepts into actionable, cutting-edge products ready for enterprise deployment.' },
+    'research-stat': { type:'leaf', icon:'query_stats', parent:'research', title:'STATISTICAL MODELING', desc:'Rigorous quantitative analysis and predictive modeling using Bayesian frameworks and advanced probabilistic graphs.' },
+    'research-data': { type:'leaf', icon:'dataset', parent:'research', title:'DATA ANALYSIS', desc:'Extracting deep, actionable insights from high-dimensional datasets utilizing state-of-the-art dimensionality reduction techniques.' },
+
+    'ds-bi': { type:'leaf', icon:'dashboard', parent:'data-scientist', title:'BI DEVELOPMENT', desc:'Creating robust Business Intelligence dashboards and pipelines. Enables executive teams to monitor KPIs in real-time.' },
+    'ds-mkt': { type:'leaf', icon:'campaign', parent:'data-scientist', title:'MARKETING & SALES', desc:'Data-driven insights tailored for market analysis and sales strategy. Predictive lead scoring and churn modeling.' },
+    'ds-cc': { type:'leaf', icon:'support_agent', parent:'data-scientist', title:'CONTACT CENTERS', desc:'Analytics and automation solutions for high-volume contact centers. Real-time sentiment analysis and agent routing.' },
+    'ds-ad': { type:'leaf', icon:'visibility', parent:'data-scientist', title:'AD MONITORING', desc:'Video, audio, and image-based ad matching and tracking systems using sophisticated computer vision and NLP models.' },
+    'ds-multi': { type:'leaf', icon:'hub', parent:'data-scientist', title:'MULTIMODAL AI', desc:'Developing models that process and fuse diverse data modalities including text, images, and time-series signals.' },
+
+    'dh-cdss': { type:'leaf', icon:'clinical_notes', parent:'digital-health', title:'CDSS & CLINICAL PATHWAY', desc:'Clinical Decision Support Systems and clinical pathway mapping to reduce bottlenecks and bridge the evidence-practice divide.' },
+    'dh-hmis': { type:'leaf', icon:'storage', parent:'digital-health', title:'HMIS', desc:'Health Management Information Systems architecture and integration ensuring interoperability across clinical facilities.' },
+    'dh-stdf': { type:'leaf', icon:'coronavirus', parent:'digital-health', title:'DISEASE FORECASTING', desc:'Spatio-temporal modeling to predict disease outbreak and spread using epidemiological data and ML.' },
+
+    'nt-conv': { type:'leaf', icon:'forum', parent:'nt-studio', title:'CONVERSATIONAL EEG AI', desc:'An interactive assistant capable of interpreting real-time brainwave data and explaining anomalies to clinicians.', media:'ConversationalEEGAI.mp4' },
+    'nt-mlops': { type:'leaf', icon:'account_tree', parent:'nt-studio', title:'VISUAL MLOps BUILDER', desc:'A drag-and-drop visual builder for designing and deploying complex MLOps workflows specifically for neuro-data.', media:'VisualMLopsBuilder.mp4' },
+    'nt-rt': { type:'leaf', icon:'bolt', parent:'nt-studio', title:'REAL-TIME EEG INFERENCE', desc:'Foundation Model inference executing directly on streaming EEG devices with sub-millisecond latency.', media:'Realtime Engine Inference.mp4' },
+    'nt-adhd': { type:'leaf', icon:'psychology_alt', parent:'neurotech', title:'ADHD DETECTION', desc:'Detecting ADHD biomarkers using advanced neurotechnological methods and EEG signal analysis.' },
+    'nt-sz': { type:'leaf', icon:'monitor_heart', parent:'neurotech', title:'NEONATAL SEIZURE DETECTION', desc:'Automated detection of neonatal seizures from raw EEG data using cutting-edge deep learning.' },
+    'nt-site': { type:'leaf', icon:'language', parent:'nt-studio', title:'WEBSITE', desc:'NeuroBench Studio is a conversational AI assistant and visual MLOps pipeline builder that democratizes deep learning. i.e. the "ChatGPT" for EEG. By combining intuitive chat-based analysis, EEGDash dataset streaming, and Braindecode foundation models, we make advanced neural time-series analysis seamlessly accessible for all.', url:'https://lnkd.in/dWCq3eEd', color:'#FFB454', media:'conversational-eeg-assistant-screenshot.png' },
+    'nt-gh': { type:'leaf', icon:'code', parent:'nt-studio', title:'GITHUB', desc:'NeuroBench Studio is a conversational AI assistant and visual MLOps pipeline builder that democratizes deep learning. i.e. the "ChatGPT" for EEG. By combining intuitive chat-based analysis, EEGDash dataset streaming, and Braindecode foundation models, we make advanced neural time-series analysis seamlessly accessible for all.', url:'https://lnkd.in/dKAxk-u7', color:'#FFB454', media:'pipeline-builder-screenshot.png' },
+
+
+
+    'github': { type:'link', icon:'code', title:'GITHUB', desc:'Explore the source code, open-source contributions, and technical implementations across my various AI and MLOps projects.', url:'https://github.com/gel1has3', color:'#FFB454' },
+    'scholar': { type:'link', icon:'school', title:'GOOGLE SCHOLAR', desc:'Read my published academic papers, citations, and ongoing research in neurotechnology and artificial intelligence.', url:'https://scholar.google.com/citations?user=NbFY4vwAAAAJ', color:'#FFB454' },
+    'linkedin': { type:'link', icon:'work', title:'LINKEDIN', desc:'Connect with me professionally, view my career history, and see endorsements of my work.', url:'https://www.linkedin.com/in/gtegenaw', color:'#FFB454', media:'GSTLinkedin.png' },
+    'email': { type:'link', icon:'mail', title:'EMAIL ME', desc:'Get in touch directly via email for collaborations, consulting, or professional inquiries. Click below to open your email client.', url:'mailto:geletaw.sahle@gmail.com', color:'#FFB454' },
+    
+    'awards': { type:'link', icon:'emoji_events', title:'GRANTS & AWARDS', desc:'A chronological timeline of my academic grants, fellowships, and scholarships.', color:'#FFB454' },
+    'education': { type:'link', icon:'school', title:'EDUCATION', desc:'A timeline of my academic degrees and specialized machine learning certifications.', color:'#FFB454' }
+  };
+
+  const sidePanel = document.getElementById('sidePanel');
+  const mainView = document.getElementById('main-view');
+  const closePanelBtn = document.getElementById('closePanel');
+  const userHint = document.getElementById('userHint');
+
+  const panelEyebrow = document.getElementById('panelEyebrow');
+  const panelTitle = document.getElementById('panelTitle');
+  const panelDesc = document.getElementById('panelDesc');
+  const panelPortfolio = document.getElementById('panelPortfolio');
+  const panelBackBtn = document.getElementById('panelBackBtn');
+  const panelMediaContainer = document.getElementById('panelMediaContainer');
+  const panelWave = document.getElementById('panelWave');
+
+  let lastFocusedNode = null;
+
+  // deterministic little waveform per title, so every panel gets its own signature trace
+  function renderWave(title){
+    let seed = 0;
+    for(let i=0;i<title.length;i++) seed = (seed * 31 + title.charCodeAt(i)) % 1000;
+    let pts = 'M0,14 ';
+    for(let x=0; x<=300; x+=20){
+      const n = Math.sin((x + seed) * 0.045) * 9 + Math.sin((x + seed) * 0.13) * 4;
+      pts += `L${x},${14+n} `;
+    }
+    panelWave.innerHTML = `<path d="${pts}"></path>`;
+  }
+
+  function openPanel(targetKey, triggerEl){
+    const data = nodeDB[targetKey];
+    if(!data) return;
+
+    lastFocusedNode = triggerEl || lastFocusedNode;
+
+    document.querySelectorAll('.node').forEach(n => n.classList.remove('active-node'));
+    const activeSvgNode = document.querySelector(`[data-target="${targetKey}"]`);
+    if(activeSvgNode) activeSvgNode.classList.add('active-node');
+
+    panelEyebrow.textContent = data.type === 'domain' ? 'Domain' : (data.type === 'link' ? 'External Profile' : 'Achievement / Focus');
+    panelTitle.textContent = data.title;
+    panelDesc.textContent = data.desc;
+    panelPortfolio.innerHTML = '';
+    
+    if(data.url) {
+      panelPortfolio.innerHTML = `
+        <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(79,216,196,0.1);">
+          <a href="${data.url}" target="_blank" class="btn-teal">
+            PROCEED TO DESTINATION <span class="material-symbols-outlined" style="font-size: 18px;">open_in_new</span>
+          </a>
+        </div>
+      `;
+    }
+
+    if(targetKey === 'dh-cdss') {
+      panelPortfolio.innerHTML = `
+        <div style="margin-top: 24px; font-size: 14px; color: var(--ink); line-height: 1.6; display: flex; flex-direction: column; gap: 20px;">
+          <p><strong>CDS-WEB-APP</strong> is a project developed to function as a plugin for existing electronic medical records or HMIS applications, supervised by Dr. Demisew, Dr. Girum, Prof. Frank Verbeke, Prof. Jan Cornelis, and Prof. Bart Jansen.</p>
+          <p>It aims to offer <strong>Clinical Pathway (CP)</strong> workflow generation and bridge the evidence-practice divide. It was developed using clinical guidelines, card-sheets, referral log-sheets, and point-of-care charts, focusing primarily on the primary health context in low-resource settings.</p>
+
+          <h4 style="color: var(--teal); font-family: var(--mono); font-size: 13px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(79, 216, 196, 0.2); padding-bottom: 4px; margin-top: 8px;">KEY FEATURES</h4>
+          <ul style="margin: 0; padding-left: 20px; color: var(--sub); display: flex; flex-direction: column; gap: 8px;">
+            <li>Automated CDS WEB-APP for low resource settings.</li>
+            <li>Hybrid algorithm combining knowledge-base with data-driven approaches.</li>
+            <li>Dynamically validates and maps knowledge-based results using local context or historical evidence.</li>
+            <li>Data-driven models produced using Bayesian learning.</li>
+            <li>Delivers multi-criteria decision analysis (concordance tables).</li>
+            <li>Deployed and operated on low-cost devices (e.g. Raspberry Pi 4) with access via smartphone, laptop, or tablet.</li>
+          </ul>
+
+          <h4 style="color: var(--teal); font-family: var(--mono); font-size: 13px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(79, 216, 196, 0.2); padding-bottom: 4px; margin-top: 8px;">PUBLICATIONS</h4>
+          <p style="color: var(--sub);">The outcomes have been published and presented in <strong>Medinfo'21, MobiHealth'21, JHIDC, PLOS ONE, INDABA'18, and md4sg'19</strong>.</p>
+          
+          <a href="https://github.com/gel1has3/CDS-WEB-APP" target="_blank" class="btn-teal-sm" style="margin-top: 8px;">VIEW PROJECT ON GITHUB <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">open_in_new</span></a>
+        </div>
+      `;
+      panelMediaContainer.innerHTML = '';
+      sidePanel.classList.add('active');
+      sidePanel.setAttribute('aria-hidden','false');
+      mainView.classList.add('panel-open');
+      return;
+    }
+
+    if(targetKey === 'dh-hmis') {
+      panelPortfolio.innerHTML = `
+        <div style="margin-top: 24px; font-size: 14px; color: var(--ink); line-height: 1.6; display: flex; flex-direction: column; gap: 20px;">
+          <p><strong>Electronic Community Health Information System (eCHIS) Usability Evaluation</strong></p>
+          <p>This comprehensive study investigated the usability factors of the eCHIS deployed in Ethiopia, which was introduced to support proper routine data management and usage at the community level.</p>
+
+          <h4 style="color: var(--teal); font-family: var(--mono); font-size: 13px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(79, 216, 196, 0.2); padding-bottom: 4px; margin-top: 8px;">RESEARCH METHODOLOGY</h4>
+          <ul style="margin: 0; padding-left: 20px; color: var(--sub); display: flex; flex-direction: column; gap: 8px;">
+            <li>Adopted the <strong>Goal Question Metric</strong> approach to evaluate learnability, efficiency, effectiveness, trustfulness, and satisfaction.</li>
+            <li>Conducted a cross-sectional study across the Oromia, Amhara, and Sidama regions of Ethiopia.</li>
+            <li>Surveyed health extension workers, midwives, and Ministry of Health personnel.</li>
+          </ul>
+
+          <h4 style="color: var(--teal); font-family: var(--mono); font-size: 13px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(79, 216, 196, 0.2); padding-bottom: 4px; margin-top: 8px;">KEY FINDINGS</h4>
+          <ul style="margin: 0; padding-left: 20px; color: var(--sub); display: flex; flex-direction: column; gap: 8px;">
+            <li>Observed a high level of overall user satisfaction, particularly among workers with solid clinical experience and good internet connectivity.</li>
+            <li>Revealed comparable usability score values across novice, casual, and expert users.</li>
+            <li>Identified critical areas for future eCHIS generations, including UI standardization and updated interaction guidelines.</li>
+          </ul>
+          
+          <a href="https://link.springer.com/article/10.1186/s12911-025-03228-9" target="_blank" class="btn-teal-sm" style="margin-top: 8px;">READ FULL PUBLICATION <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">open_in_new</span></a>
+
+          <hr style="border: 0; border-top: 1px solid rgba(79,216,196,0.1); margin: 8px 0;" />
+          
+          <p><strong>Patient Flow Visualization & Prediction</strong></p>
+          <p>Developing a patient flow visualization and prediction model using aggregated data for a healthcare network cluster in Southwest Ethiopia.</p>
+          
+          <a href="https://journals.plos.org/digitalhealth/article?id=10.1371/journal.pdig.0000376" target="_blank" class="btn-teal-sm" style="margin-top: 8px;">READ PLOS DIGITAL HEALTH PAPER <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">open_in_new</span></a>
+        </div>
+      `;
+      panelMediaContainer.innerHTML = '';
+      sidePanel.classList.add('active');
+      sidePanel.setAttribute('aria-hidden','false');
+      mainView.classList.add('panel-open');
+      return;
+    }
+
+    if(targetKey === 'dh-stdf') {
+      panelPortfolio.innerHTML = `
+        <div style="margin-top: 24px; font-size: 14px; color: var(--ink); line-height: 1.6; display: flex; flex-direction: column; gap: 20px;">
+          <p><strong>Spatiotemporal Disease Forecasting</strong></p>
+          <p>This domain encompasses extensive research applying deep learning and spatiotemporal modeling to predict outbreaks and understand the dynamics of climate-sensitive diseases across Ethiopia.</p>
+
+          <h4 style="color: var(--teal); font-family: var(--mono); font-size: 13px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(79, 216, 196, 0.2); padding-bottom: 4px; margin-top: 8px;">KEY PUBLICATIONS</h4>
+          
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+              <p style="font-weight: 600; margin-bottom: 4px; color: var(--ink); font-size: 13px; line-height: 1.4;">Deep Learning for Spatio-Temporal Forecasting of Climate-Sensitive Diseases</p>
+              <a href="https://link.springer.com/article/10.1186/s12889-024-18054-3" target="_blank" class="btn-teal-xs" style="margin-top:6px;">READ ARTICLE <span class="material-symbols-outlined" style="font-size: 12px; vertical-align:middle;">open_in_new</span></a>
+            </div>
+
+            <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+              <p style="font-weight: 600; margin-bottom: 4px; color: var(--ink); font-size: 13px; line-height: 1.4;">Modeling the spatiotemporal dynamics of malaria disease outbreaks in southwestern Ethiopia using deep learning</p>
+              <a href="https://link.springer.com/article/10.1186/s12982-026-02111-w" target="_blank" class="btn-teal-xs" style="margin-top:6px;">READ ARTICLE <span class="material-symbols-outlined" style="font-size: 12px; vertical-align:middle;">open_in_new</span></a>
+            </div>
+
+            <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+              <p style="font-weight: 600; margin-bottom: 4px; color: var(--ink); font-size: 13px; line-height: 1.4;">Spatiotemporal distribution of climate-sensitive disease incidences in Ethiopia (2010 - 2023)</p>
+              <p style="color: var(--sub); font-size: 12px; margin-bottom: 4px; line-height: 1.3;">A longitudinal retrospective analysis of Malaria, Meningitis, Cholera, Dysentery, Leishmaniasis, and Dengue fever.</p>
+              <a href="https://www.medrxiv.org/content/10.64898/2026.03.20.26348930v1.full.pdf" target="_blank" class="btn-teal-xs" style="margin-top:6px;">VIEW PDF <span class="material-symbols-outlined" style="font-size: 12px; vertical-align:middle;">open_in_new</span></a>
+            </div>
+          </div>
+        </div>
+      `;
+      panelMediaContainer.innerHTML = '';
+      sidePanel.classList.add('active');
+      sidePanel.setAttribute('aria-hidden','false');
+      mainView.classList.add('panel-open');
+      return;
+    }
+
+    if(targetKey === 'ds-multi') {
+      panelPortfolio.innerHTML = `
+        <div style="margin-top: 24px; font-size: 14px; color: var(--ink); line-height: 1.6; display: flex; flex-direction: column; gap: 20px;">
+          <p><strong>Multimodal Cervical Cancer Risk Assessment</strong></p>
+          <p>Developing a multimodal cervical cancer risk assessment and prediction model based on LMIC hospital patient card sheets and histopathological images.</p>
+
+          <h4 style="color: var(--teal); font-family: var(--mono); font-size: 13px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(79, 216, 196, 0.2); padding-bottom: 4px; margin-top: 8px;">KEY CONTRIBUTIONS</h4>
+          <ul style="margin: 0; padding-left: 20px; color: var(--sub); display: flex; flex-direction: column; gap: 8px;">
+            <li>Multimodal fusion of structured clinical data (patient card sheets) with histopathological image features.</li>
+            <li>Tailored for Low and Middle Income Country (LMIC) hospital settings with limited data infrastructure.</li>
+            <li>Enables earlier, data-driven risk stratification for cervical cancer screening pathways.</li>
+          </ul>
+
+          <h4 style="color: var(--teal); font-family: var(--mono); font-size: 13px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(79, 216, 196, 0.2); padding-bottom: 4px; margin-top: 8px;">PUBLICATION</h4>
+          <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+            <p style="font-weight: 600; margin-bottom: 4px; color: var(--ink); font-size: 13px; line-height: 1.4;">BMC Medical Informatics and Decision Making, 2025</p>
+            <p style="color: var(--sub); font-size: 12px; margin-bottom: 8px; line-height: 1.4;">Multimodal deep learning approach for cervical cancer risk assessment in resource-limited settings.</p>
+            <a href="https://link.springer.com/article/10.1186/s12911-025-03174-6" target="_blank" class="btn-teal-sm">READ FULL PUBLICATION <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">open_in_new</span></a>
+          </div>
+        </div>
+      `;
+      panelMediaContainer.innerHTML = '';
+      sidePanel.classList.add('active');
+      sidePanel.setAttribute('aria-hidden','false');
+      mainView.classList.add('panel-open');
+      return;
+    }
+
+    if(targetKey === 'nt-sz') {
+      panelPortfolio.innerHTML = `
+        <div style="margin-top: 24px; font-size: 14px; color: var(--ink); line-height: 1.6; display: flex; flex-direction: column; gap: 20px;">
+          <p><strong>Neonatal Seizure Detection from Raw EEG</strong></p>
+          <p>Automated detection of neonatal seizures directly from raw EEG signals using cutting-edge deep learning. Targets critically under-resourced clinical environments where specialist review is unavailable 24/7.</p>
+
+          <h4 style="color: var(--teal); font-family: var(--mono); font-size: 13px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(79, 216, 196, 0.2); padding-bottom: 4px; margin-top: 8px;">KEY CONTRIBUTIONS</h4>
+          <ul style="margin: 0; padding-left: 20px; color: var(--sub); display: flex; flex-direction: column; gap: 8px;">
+            <li>End-to-end deep learning pipeline operating directly on raw EEG time-series — no hand-crafted features.</li>
+            <li>Short-time EEG window approach enables low-latency, real-time inference on clinical hardware.</li>
+            <li>Achieves high sensitivity for neonatal seizure events, reducing missed detections in ICU settings.</li>
+            <li>Open-source code and pretrained models released to support reproducible clinical AI research.</li>
+          </ul>
+
+          <h4 style="color: var(--teal); font-family: var(--mono); font-size: 13px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(79, 216, 196, 0.2); padding-bottom: 4px; margin-top: 8px;">OPEN SOURCE</h4>
+          <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+            <p style="font-weight: 600; margin-bottom: 4px; color: var(--ink); font-size: 13px; line-height: 1.4;">NeonatalSeizureDetection_ShortEEG_Windows</p>
+            <p style="color: var(--sub); font-size: 12px; margin-bottom: 8px; line-height: 1.4;">Source code, data processing pipelines, and pretrained models for the paper: <em>Epileptic Seizure Detection Using Short-Time EEG Windows</em>.</p>
+            <a href="https://github.com/gel1has3/NeonatalSeizureDetection_ShortEEG_Windows" target="_blank" class="btn-teal-sm">VIEW ON GITHUB <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">open_in_new</span></a>
+          </div>
+
+          <h4 style="color: var(--teal); font-family: var(--mono); font-size: 13px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(79, 216, 196, 0.2); padding-bottom: 4px; margin-top: 8px;">PUBLICATION</h4>
+          <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+            <p style="font-weight: 600; margin-bottom: 4px; color: var(--ink); font-size: 13px; line-height: 1.4;">AICS'25 — Artificial Intelligence and Cognitive Science Conference</p>
+            <p style="color: var(--sub); font-size: 12px; margin-bottom: 8px; line-height: 1.4;">Companion Proceedings. Publisher: Zenodo, 2025.</p>
+            <a href="https://zenodo.org/records/19140361" target="_blank" class="btn-teal-sm">VIEW PROCEEDINGS <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">open_in_new</span></a>
+          </div>
+        </div>
+      `;
+      panelMediaContainer.innerHTML = '';
+      sidePanel.classList.add('active');
+      sidePanel.setAttribute('aria-hidden','false');
+      mainView.classList.add('panel-open');
+      return;
+    }
+
+    if(targetKey === 'skills') {
+      panelPortfolio.innerHTML = `
+        <div style="margin-top: 24px; font-size: 14px; color: var(--ink); line-height: 1.6; display: flex; flex-direction: column; gap: 16px; padding-left: 8px;">
+          <div style="border-left: 2px solid var(--teal); padding-left: 12px;"><p style="font-weight:700;color:var(--ink);font-size:14px;margin-bottom:4px;">Healthcare AI</p><p style="color:var(--sub);font-size:13px;">EEG Analysis, CDSS, EHR, Biomedical AI</p></div>
+          <div style="border-left: 2px solid var(--teal); padding-left: 12px;"><p style="font-weight:700;color:var(--ink);font-size:14px;margin-bottom:4px;">Artificial Intelligence</p><p style="color:var(--sub);font-size:13px;">Deep Learning, Multimodal, Self-Supervised, Foundation Models</p></div>
+          <div style="border-left: 2px solid var(--teal); padding-left: 12px;"><p style="font-weight:700;color:var(--ink);font-size:14px;margin-bottom:4px;">NLP &amp; LLMs</p><p style="color:var(--sub);font-size:13px;">LLMs, RAG, LoRA, PEFT, Hugging Face Transformers</p></div>
+          <div style="border-left: 2px solid var(--teal); padding-left: 12px;"><p style="font-weight:700;color:var(--ink);font-size:14px;margin-bottom:4px;">Agentic AI</p><p style="color:var(--sub);font-size:13px;">Multi-Agent Systems, CrewAI, LangGraph, LangChain, LlamaIndex</p></div>
+          <div style="border-left: 2px solid var(--teal); padding-left: 12px;"><p style="font-weight:700;color:var(--ink);font-size:14px;margin-bottom:4px;">Time-Series &amp; ML</p><p style="color:var(--sub);font-size:13px;">TCN, LSTM, Transformers, TSMixer, PyTorch, TensorFlow, Scikit-learn</p></div>
+          <div style="border-left: 2px solid var(--teal); padding-left: 12px;"><p style="font-weight:700;color:var(--ink);font-size:14px;margin-bottom:4px;">MLOps &amp; XAI</p><p style="color:var(--sub);font-size:13px;">Experiment Tracking, SHAP, Integrated Gradients, Captum, Benchmarking</p></div>
+          <div style="border-left: 2px solid var(--teal); padding-left: 12px;"><p style="font-weight:700;color:var(--ink);font-size:14px;margin-bottom:4px;">Programming</p><p style="color:var(--sub);font-size:13px;">Python, SQL</p></div>
+        </div>
+      `;
+      panelMediaContainer.innerHTML = '';
+      sidePanel.classList.add('active');
+      sidePanel.setAttribute('aria-hidden','false');
+      mainView.classList.add('panel-open');
+      return;
+    }
+
+    if(targetKey === 'experience') {
+      function tlItem(date, role, org, url, urlLabel) {
+        return `<div style="position:relative;padding-left:20px;">
+          <div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div>
+          <div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">${date}</div>
+          <div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">${role}</div>
+          <div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.4;${url?'margin-bottom:10px;':''}">${org}</div>
+          ${url ? `<a href="${url}" target="_blank" class="btn-teal-xs">${urlLabel} <span class="material-symbols-outlined" style="font-size:12px;vertical-align:middle;">open_in_new</span></a>` : ''}
+        </div>`;
+      }
+      panelPortfolio.innerHTML = `
+        <div style="margin-top:32px;padding-top:16px;border-left:2px solid var(--teal);margin-left:8px;display:flex;flex-direction:column;gap:28px;">
+          ${tlItem('Sep 2024 – Present','Marie Skłodowska-Curie Postdoctoral Fellow','Insight Research Ireland, Dublin City University.','https://neuroinsight.eu/people/dr-geletaw-sahle-tegenaw/','VIEW PROFILE')}
+          ${tlItem('Apr 2025 – Apr 2026','Visiting Researcher','Trinity College Institute of Neurosciences, Trinity College Dublin.','','')}
+          ${tlItem('Apr 2023 – Sep 2024','Data Science Consultant & IT Team Lead','Addis Finder Trading (Real-estate Property Marketing and Sales).','https://addisfinders.com/','VIEW')}
+          ${tlItem('Ongoing','Partner & Collaborator','Future AI Partnership — EU Horizon programme supporting AI innovation networks.','https://future-ai.eu/partners/','VIEW PARTNERS')}
+          ${tlItem('May 2022 – May 2024','Researcher, AI & Biomedical Imaging Lab','Artificial Intelligence & Biomedical Imaging Research Lab, Jimma University.','http://www.biomai.et/','VISIT LAB')}
+          ${tlItem('Aug 2021 – Jan 2024','Digital Health Researcher & Data Scientist','Capacity Building and Mentorship Partnership (CBMP), Jimma University.','','')}
+          ${tlItem('May – Sep 2021','Freelance Data Scientist','EPHI, P2P, NDMC, and 10-Academy, Ethiopia.','','')}
+          ${tlItem('Sep 2018 – Aug 2023','Research Fellow (PhD Candidate)','Vrije Universiteit Brussel, Belgium.','https://www.etrovub.be/people/member/about-bio/gsahle/','VIEW PROFILE')}
+          ${tlItem('2016','Research Intern','University of Trento, Italy (Horizon 2020 — ACANTO Project).','','')}
+          ${tlItem('2006 – 2018','Lecturer','Jimma University, Faculty of Computing, Ethiopia.','','')}
+        </div>
+      `;
+      panelMediaContainer.innerHTML = '';
+      sidePanel.classList.add('active');
+      sidePanel.setAttribute('aria-hidden','false');
+      mainView.classList.add('panel-open');
+      return;
+    }
+
+    if(targetKey === 'education') {
+      panelPortfolio.innerHTML = `
+        <div style="margin-top:32px;padding-top:16px;border-left:2px solid var(--teal);margin-left:8px;display:flex;flex-direction:column;gap:24px;">
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2023</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">PhD in Engineering Science</div><div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.4;">Vrije Universiteit Brussel, Belgium.</div></div>
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2020</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">Certificate, Machine Learning Scientist (Python)</div><div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.4;">Datacamp &amp; VUB Doctoral School.</div></div>
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2019</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">Certificate, Machine Learning</div><div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.4;">Machine Learning Summer School (MLSS 2019), London.</div></div>
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2016</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">Advanced Certificate (Postmaster)</div><div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.4;">University of Trento, Italy.</div></div>
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2011</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">M.Sc. in Informatics</div><div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.4;">Specialty in Health Informatics. Addis Ababa University, Ethiopia.</div></div>
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2006</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">B.Sc. in Computer Science</div><div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.4;">Jimma University, Ethiopia.</div></div>
+        </div>
+      `;
+      panelMediaContainer.innerHTML = '';
+      sidePanel.classList.add('active');
+      sidePanel.setAttribute('aria-hidden','false');
+      mainView.classList.add('panel-open');
+      return;
+    }
+
+    if(targetKey === 'awards') {
+      panelPortfolio.innerHTML = `
+        <div style="margin-top:32px;padding-top:16px;border-left:2px solid var(--teal);margin-left:8px;display:flex;flex-direction:column;gap:24px;">
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2024 – 2026</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">Marie Skłodowska-Curie NeuroInsight Postdoctoral Fellowship</div></div>
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2023 – 2025</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">AI-based Digital Systems Research Grant</div><div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.4;">Surveillance, forecasting, and diagnosis of climate-sensitive diseases outbreaks in Ethiopia.</div></div>
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2020</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">VUB Scholarship</div><div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.4;">Datacamp training (Machine Learning Scientist in Python).</div></div>
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2019</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">Grand Challenge Ethiopia Winner &amp; Grant</div><div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.4;">IoT Enabled Maternal Care VT Follow up. Best Innovative Poster Prize (AHARI).</div></div>
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2019</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">MLSS'19 Full Scholarship</div><div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.4;">Imperial College London.</div></div>
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2019</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">MD4SG Full Travel Grant</div><div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.4;">ACM-EC Economic and Computation, Phoenix, Arizona.</div></div>
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2018 – 2022</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">NASCERE Full Scholarship</div></div>
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2018</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">Deep Learning INDABA Awards</div><div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.4;">Full Scholarship (Stellenbosch University, SA) &amp; AlphaGO Poster Prize.</div></div>
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2018</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">Black in AI Travel Grant</div><div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.4;">NeurIPS, Montreal, Canada.</div></div>
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2015 – 2016</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">University of Trento Scholarship</div><div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.4;">Italy. Advanced Technologies for Active and Healthy Aging.</div></div>
+          <div style="position:relative;padding-left:20px;"><div style="position:absolute;left:-5px;top:6px;width:8px;height:8px;background:var(--bg-1);border:2px solid var(--teal);border-radius:50%;"></div><div style="font-weight:700;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:13px;">2013</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-top:4px;">Three Research Grant Awards</div><div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.4;">Jimma University.</div></div>
+        </div>
+      `;
+      panelMediaContainer.innerHTML = '';
+      sidePanel.classList.add('active');
+      sidePanel.setAttribute('aria-hidden','false');
+      mainView.classList.add('panel-open');
+      return;
+    }
+
+    panelMediaContainer.innerHTML = '';
+    renderWave(data.title);
+
+    if(data.parent){
+      panelBackBtn.classList.add('visible');
+      panelBackBtn.onclick = () => openPanel(data.parent);
+      panelBackBtn.innerHTML = `← Back to ${nodeDB[data.parent].title}`;
+    } else {
+      panelBackBtn.classList.remove('visible');
+    }
+
+    if(data.type === 'domain'){
+      data.children.forEach(childKey => {
+        const childData = nodeDB[childKey];
+        if(!childData) return;
+        const card = document.createElement('div');
+        card.className = 'portfolio-card';
+        card.tabIndex = 0;
+        card.onclick = () => openPanel(childKey);
+        card.innerHTML = `<h3 class="card-title">${childData.title}</h3><p class="card-desc">${childData.desc}</p>`;
+        panelPortfolio.appendChild(card);
+      });
+    } else if(data.type === 'leaf' && !data.media) {
+      panelMediaContainer.innerHTML = `<div class="media-placeholder"><div><div class="bars"><span></span></div>Add media for ${data.title}</div></div>`;
+    }
+
+    if(data.media) {
+      const isVideo = data.media.endsWith('.mp4') || data.media.endsWith('.webm');
+      if(isVideo) {
+        panelMediaContainer.innerHTML = `<div class="video-skeleton"><span class="material-symbols-outlined">smart_display</span></div>`;
+        const vid = document.createElement('video');
+        vid.src = data.media; vid.controls = true; vid.autoplay = false; vid.loop = true; vid.muted = true;
+        vid.style.cssText = 'width:100%;border-radius:4px;max-height:300px;background:#000;display:none;';
+        vid.addEventListener('canplay', () => {
+          panelMediaContainer.querySelector('.video-skeleton').style.display = 'none';
+          vid.style.display = 'block';
+        });
+        panelMediaContainer.appendChild(vid);
+      } else {
+        panelMediaContainer.innerHTML = `<img src="${data.media}" style="width:100%; border-radius:4px; max-height:300px; object-fit:contain; background:rgba(0,0,0,0.2);" loading="lazy">`;
+      }
+    }
+
+    sidePanel.classList.add('active');
+    sidePanel.setAttribute('aria-hidden','false');
+    mainView.classList.add('panel-open');
+  }
+
+  function closePanel(){
+    sidePanel.classList.remove('active');
+    sidePanel.setAttribute('aria-hidden','true');
+    mainView.classList.remove('panel-open');
+    document.querySelectorAll('.node').forEach(n => n.classList.remove('active-node'));
+    if(lastFocusedNode) lastFocusedNode.focus();
+  }
+
+  const themeToggle = document.getElementById('themeToggle');
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-theme');
+    const icon = document.body.classList.contains('light-theme') ? 'dark_mode' : 'light_mode';
+    themeToggle.innerHTML = `<span class="material-symbols-outlined" style="font-size:20px;">${icon}</span>`;
+  });
+
+  closePanelBtn.addEventListener('click', closePanel);
+  closePanelBtn.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); closePanel(); }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape' && sidePanel.classList.contains('active')) closePanel();
+  });
+
+  // ---- D3 GRAPH LOGIC ----
+  const d3Canvas = d3.select("#d3-canvas");
+  const svgGroup = d3Canvas.append("g");
+
+  // Setup Zoom & Pan
+  const zoom = d3.zoom()
+    .scaleExtent([0.3, 3])
+    .on("zoom", (event) => {
+      svgGroup.attr("transform", event.transform);
+    });
+  d3Canvas.call(zoom);
+
+  // Build hierarchical tree data from nodeDB
+  function buildHierarchy(key) {
+    if(!nodeDB[key]) return null;
+    let node = { id: key, ...nodeDB[key] };
+    if(node.children) {
+      node.children = node.children.map(childKey => buildHierarchy(childKey)).filter(Boolean);
+    }
+    return node;
+  }
+  
+  const treeData = {
+    id: 'HUB', icon: 'profile.png', title: 'GST', type: 'hub',
+    children: [
+      'data-scientist', 'neurotech', 'digital-health', 'agents', 'fm-llm', 'github', 'scholar',
+      'experience', 'education', 'skills', 'awards', 'linkedin', 'email'
+    ].map(buildHierarchy)
+  };
+
+  const root = d3.hierarchy(treeData);
+  const isMobile = () => (window.innerWidth || document.documentElement.clientWidth) < 768;
+  // Mobile uses tighter spacing so tree fits on small screens
+  function getSpacing() {
+    return isMobile()
+      ? { dx: 44, dy: 80 }    // compact: 44px vertical gap, 80px level gap
+      : { dx: 85, dy: 320 };  // desktop: full spacing (unchanged)
+  }
+  const { dx: dx0, dy: dy0 } = getSpacing();
+  const treeLayout = d3.tree().nodeSize([dx0, dy0]);
+  root.x0 = (d3Canvas.node().clientHeight || window.innerHeight) / 2;
+  root.y0 = 0;
+
+  // Collapse all domains on initial load
+  function collapse(d) {
+    if(d.children) {
+      d._children = d.children;
+      d._children.forEach(collapse);
+      d.children = null;
+    }
+  }
+  if(root.children) {
+    root.children.forEach(collapse);
+  }
+
+  const svgGroupLinks = svgGroup.append("g");
+  const svgGroupNodes = svgGroup.append("g");
+  
+  let i = 0;
+
+  // ── fitToScreen: reliably centers all visible nodes in the viewport ──
+  function fitToScreen(animated) {
+    const svgEl = d3Canvas.node();
+    // Use innerWidth/Height as primary source (works in both file:// and hosted)
+    const w = Math.max(svgEl.clientWidth || 0, window.innerWidth || 375);
+    const h = Math.max(svgEl.clientHeight || 0, window.innerHeight || 667);
+    const mob = isMobile();
+
+    // Re-apply correct nodeSize in case window was resized
+    const { dx, dy } = getSpacing();
+    treeLayout.nodeSize([dx, dy]);
+
+    let xMin = Infinity, xMax = -Infinity, yMin = Infinity, yMax = -Infinity;
+    root.each(d => {
+      const nx = d.x0 !== undefined ? d.x0 : d.x;
+      const ny = d.y0 !== undefined ? d.y0 : d.y;
+      if(nx !== undefined) { if(nx > xMax) xMax = nx; if(nx < xMin) xMin = nx; }
+      if(ny !== undefined) { if(ny > yMax) yMax = ny; if(ny < yMin) yMin = ny; }
+    });
+    if(xMin === Infinity) return;
+
+    const treeW = Math.max(yMax - yMin, 1);
+    const treeH = Math.max(xMax - xMin, 1);
+    const padX = mob ? 55 : 160;
+    const padY = mob ? 50 : 120;
+    // Label truncation (maxLabelChars=13) means labels are ~65px wide at 8px font,
+    // centered at dy=80. Safe horizontal scale = (w/2 - 33) / 80 ≈ 1.9
+    // So we no longer need an aggressive cap — let width & height constraints govern.
+    const scale = Math.min(
+      w  / (treeW + padX * 2),
+      h  / (treeH + padY * 2),
+      1.4   // unified cap: same generous limit on both mobile and desktop
+    );
+
+    const cx = (yMin + yMax) / 2;   // SVG-x center (horizontal axis in D3 tree)
+    const cy = (xMin + xMax) / 2;   // SVG-y center (vertical axis)
+
+    const tr = d3.zoomIdentity.translate(w / 2, h / 2).scale(scale).translate(-cx, -cy);
+    if(animated) {
+      d3Canvas.transition().duration(500).call(zoom.transform, tr);
+    } else {
+      d3Canvas.call(zoom.transform, tr);
+    }
+
+    // ── Inverse-scale font correction (mobile only) ──────────────────────────
+    // Problem 1: zoom scale > 1 makes SVG fonts appear too large.
+    // Problem 2: reducing font-size shrinks em-based dy, pushing labels into node circles.
+    // Solution: set font-sizes inversely AND override dy with px values anchored
+    //   to the node radius so label clearance is independent of font-size.
+    if(mob) {
+      const adj = (targetPx) => (targetPx / scale).toFixed(2) + 'px';
+      const S = ns();
+      svgGroupNodes.selectAll('g.node').each(function(d) {
+        const g = d3.select(this);
+        if(!d || !d.data) return;
+        const type = d.data.type;
+
+        // ① Correct font-size (visual size = targetPx regardless of zoom)
+        const lbl = g.select('text:not(.material-symbols-outlined)');
+        const targetPx = (type === 'hub' || type === 'domain' || type === 'link') ? 9 : 8;
+        lbl.attr('font-size', adj(targetPx));
+
+        // ② Fix dy: anchor in SVG px to node radius so it never moves into the circle.
+        //    Clearance = radius + 5 SVG units above center (≈ 7px visual at scale 1.35)
+        if(type !== 'leaf') {
+          const r = type === 'hub' ? S.hubR : S.domR;
+          lbl.attr('dy', `-${r + 5}px`);
+        }
+
+        // ③ Correct icon size
+        g.select('text.material-symbols-outlined')
+          .style('font-size',
+            type === 'hub'  ? adj(15)
+          : (type === 'domain' || type === 'link') ? adj(11)
+          : adj(10)
+          );
+      });
+    }
+  }
+
+
+
+  /**
+   * ns() — Node Scale system
+   * Scales ALL node dimensions together (radius, icon, label, rings, offsets)
+   * so the visual language stays proportional on mobile.
+   *
+   * KEY MOBILE RULE: domTxt=8px + dy=80 means a 14-char label (84px wide at
+   * 6px/char) centered at dy=80 extends to dy±42 — safely within 360px screen.
+   * maxLabelChars=13 is a safety-net truncation for any label that still overflows.
+   */
+  function ns() {
+    const mob = isMobile();
+    return {
+      // Core circle radii
+      hubR:    mob ? 14 : 24,
+      domR:    mob ? 8  : 14,
+      leafR:   mob ? 6  : 11,
+      // Amber decorative ring (hub only)
+      hubRing: mob ? 19 : 32,
+      // Pulse ring (domains)
+      pulse:   mob ? 9  : 15,
+      // Profile image clip + display size
+      imgClip: mob ? 14 : 24,
+      imgOff:  mob ? -14 : -24,
+      imgSz:   mob ? 28 : 48,
+      // Material Symbols icon font-size
+      hubIcon: mob ? '15px' : '28px',
+      domIcon: mob ? '10px' : '16px',
+      leafIcon:mob ? '9px'  : '14px',
+      // SVG text label font-size — 8px on mobile keeps labels within dy=80
+      hubTxt:  mob ? '8px'  : '12px',
+      domTxt:  mob ? '8px'  : '14px',
+      leafTxt: mob ? '7px'  : '11px',
+      // Leaf label x-offset from node edge
+      leafX:   mob ? 10 : 19,
+      // Safety-net: truncate labels longer than this many chars on mobile
+      maxLabelChars: mob ? 13 : Infinity,
+    };
+  }
+
+  function update(source) {
+    // Recalculate layout spacing in case screen size changed
+    const { dx, dy } = getSpacing();
+    treeLayout.nodeSize([dx, dy]);
+
+    const treeData = treeLayout(root);  // run the layout with updated spacing
+    const nodes = treeData.descendants();
+    const links = treeData.links();
+
+    // Determine left vs right domains
+    const leftDomains = ['email', 'linkedin', 'awards', 'skills', 'education', 'experience'];
+    function isLeft(d) {
+      if(d.depth === 0) return false;
+      let ancestor = d;
+      while(ancestor.depth > 1) { ancestor = ancestor.parent; }
+      return leftDomains.includes(ancestor.data.id);
+    }
+
+    // Balance vertical positions so both sides center on the HUB
+    let leftMinX = Infinity, leftMaxX = -Infinity;
+    let rightMinX = Infinity, rightMaxX = -Infinity;
+    nodes.forEach(d => {
+      if(d.depth === 0) return;
+      if(isLeft(d)) {
+        if(d.x < leftMinX) leftMinX = d.x;
+        if(d.x > leftMaxX) leftMaxX = d.x;
+      } else {
+        if(d.x < rightMinX) rightMinX = d.x;
+        if(d.x > rightMaxX) rightMaxX = d.x;
+      }
+    });
+    
+    let leftOffset = (leftMinX === Infinity) ? 0 : -(leftMinX + leftMaxX) / 2;
+    let rightOffset = (rightMinX === Infinity) ? 0 : -(rightMinX + rightMaxX) / 2;
+
+    nodes.forEach(d => {
+      if(d.depth === 0) {
+        d.x = 0;
+        d.y = 0;
+      } else if(isLeft(d)) {
+        d.y = -d.y;
+        d.x += leftOffset;
+      } else {
+        d.x += rightOffset;
+      }
+    });
+
+    const transition = d3Canvas.transition().duration(400);
+
+    // ---- LINKS ----
+    const link = svgGroupLinks.selectAll("path.link")
+      .data(links, d => d.target.id);
+
+    const linkEnter = link.enter().append("path")
+      .attr("class", "link")
+      .attr("fill", "none")
+      .attr("stroke", "var(--teal)")
+      .attr("stroke-opacity", 0)
+      .attr("stroke-width", 1.5)
+      .attr("d", d => {
+        const o = {x: source.x0, y: source.y0};
+        return d3.linkHorizontal().x(d => d.y).y(d => d.x)({source: o, target: o});
+      });
+
+    link.merge(linkEnter).transition(transition)
+      .attr("stroke-opacity", 0.3)
+      .attr("d", d3.linkHorizontal().x(d => d.y).y(d => d.x));
+
+    link.exit().transition(transition).remove()
+      .attr("stroke-opacity", 0)
+      .attr("d", d => {
+        const o = {x: source.x, y: source.y};
+        return d3.linkHorizontal().x(d => d.y).y(d => d.x)({source: o, target: o});
+      });
+
+    // ---- NODES ----
+    const node = svgGroupNodes.selectAll("g.node")
+      .data(nodes, d => d.id || (d.id = ++i));
+
+    const nodeEnter = node.enter().append("g")
+      .attr("class", "node")
+      .attr("data-target", d => d.data.type !== 'hub' ? (d.data.id.startsWith('connect-') ? '' : d.data.id) : '')
+      .attr("tabindex", "0")
+      .attr("transform", d => `translate(${source.y0},${source.x0})`)
+      .attr("fill-opacity", 0)
+      .attr("stroke-opacity", 0)
+      .on("click", (event, d) => {
+        event.stopPropagation();
+        if(d.data.type === 'hub') return;
+        
+        if (d.children || d._children) {
+          // Toggle domain
+          if (d.children) {
+            d._children = d.children;
+            d.children = null;
+          } else {
+            d.children = d._children;
+            d._children = null;
+          }
+          update(d);
+        } else {
+          // Open leaf panel
+          if(userHint) userHint.classList.add('hidden');
+          document.querySelectorAll('.node').forEach(n => n.classList.remove('active-node'));
+          event.currentTarget.classList.add('active-node');
+          openPanel(d.data.id, event.currentTarget);
+        }
+      })
+      .on("keydown", (event, d) => {
+        if(event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          d3.select(event.currentTarget).dispatch('click');
+        }
+      });
+
+    // Pulse rings for domains
+    nodeEnter.filter(d => d.data.type === 'domain').append("circle")
+      .attr("class", "pulse-ring")
+      .attr("r", ns().pulse);
+
+    // Core circles
+    const S = ns();
+    nodeEnter.append("circle")
+      .attr("class", "core")
+      .attr("r", d => d.data.type === 'hub' ? S.hubR : (d.data.type === 'domain' || d.data.type === 'link' ? S.domR : S.leafR))
+      .attr("stroke", d => d.data.color || "var(--teal)")
+      .attr("stroke-width", d => d.data.type === 'hub' ? 1.5 : 1.2);
+      
+    // Center dot for HUB
+    nodeEnter.filter(d => d.data.type === 'hub').append("circle")
+      .attr("r", S.hubRing)
+      .attr("fill", "none")
+      .attr("stroke", "var(--amber)")
+      .attr("opacity", 0.4);
+
+    // Images inside nodes
+    nodeEnter.filter(d => d.data.icon && d.data.icon.endsWith('.png')).append("clipPath")
+      .attr("id", d => "clip-" + d.id)
+      .append("circle")
+      .attr("r", S.imgClip);
+
+    nodeEnter.filter(d => d.data.icon && d.data.icon.endsWith('.png')).append("image")
+      .attr("href", d => d.data.icon)
+      .attr("x", S.imgOff)
+      .attr("y", S.imgOff)
+      .attr("height", S.imgSz)
+      .attr("width", S.imgSz)
+      .attr("clip-path", d => "url(#clip-" + d.id + ")");
+
+    // Material Icons inside nodes
+    nodeEnter.filter(d => d.data.icon && !d.data.icon.endsWith('.png')).append("text")
+      .attr("class", "material-symbols-outlined")
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "central")
+      .style("font-size", d => d.data.type === 'hub' ? S.hubIcon : (d.data.type === 'domain' || d.data.type === 'link' ? S.domIcon : S.leafIcon))
+      .style("fill", "var(--bg-1)")
+      .style("pointer-events", "none")
+      .text(d => d.data.icon);
+
+    // Text labels — truncate long titles on mobile to prevent edge overflow
+    nodeEnter.append("text")
+      .text(d => {
+        const title = d.data.title;
+        const maxC = ns().maxLabelChars;
+        return (maxC !== Infinity && title.length > maxC)
+          ? title.slice(0, maxC) + '\u2026'
+          : title;
+      })
+      .attr("dy", d => d.data.type === 'leaf' ? "0.31em" : "-1.8em")
+      .attr("x", d => {
+         if (d.data.type !== 'leaf') return 0;
+         return isLeft(d) ? -S.leafX : S.leafX;
+      })
+      .attr("text-anchor", d => {
+         if (d.data.type !== 'leaf') return "middle";
+         return isLeft(d) ? "end" : "start";
+      })
+      .attr("font-family", "JetBrains Mono, monospace")
+      .attr("font-size", d => d.data.type === 'hub' ? S.hubTxt : (d.data.type === 'domain' || d.data.type === 'link' ? S.domTxt : S.leafTxt))
+      .attr("fill", d => d.data.color || (d.data.type === 'domain' || d.data.type === 'link' ? "var(--ink)" : "var(--sub)"));
+
+    const nodeUpdate = node.merge(nodeEnter).transition(transition)
+      .attr("transform", d => `translate(${d.y},${d.x})`)
+      .attr("fill-opacity", 1)
+      .attr("stroke-opacity", 1);
+
+    // Indicate collapsed nodes by filling their core
+    nodeUpdate.select("circle.core")
+      .attr("fill", d => d._children ? "var(--teal)" : "var(--bg-2)");
+
+    const nodeExit = node.exit().transition(transition).remove()
+      .attr("transform", d => `translate(${source.y},${source.x})`)
+      .attr("fill-opacity", 0)
+      .attr("stroke-opacity", 0);
+
+    nodes.forEach(d => {
+      d.x0 = d.x;
+      d.y0 = d.y;
+    });
+
+    // Fit visible nodes to screen after transition completes
+    setTimeout(() => fitToScreen(false), 420);
+  }
+
+  update(root);
+
+  // Defer initial fit until after first paint so clientWidth/Height are populated
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => { // two rAF frames = reliably after layout
+      fitToScreen(false);
+    });
+  });
+
+  /**
+   * refreshNodeStyles()
+   * Re-applies ALL ns() visual values (radii, fonts, icons, label text, dy, x-offsets)
+   * to EVERY existing node in the DOM.
+   *
+   * Why this is needed:
+   *   nodeEnter runs ONCE when a node is first created. On resize, D3's update()
+   *   only moves nodes (transform) — it never revisits nodeEnter attributes on
+   *   existing nodes. So mobile → desktop (or vice-versa) keeps stale sizes.
+   *
+   * This function is the single source of truth for node appearance.
+   * It's O(n-nodes) and lightweight enough to call on every resize.
+   */
+  function refreshNodeStyles() {
+    const S = ns();
+    const mob = isMobile();
+
+    svgGroupNodes.selectAll('g.node').each(function(d) {
+      if(!d || !d.data) return;
+      const g    = d3.select(this);
+      const type = d.data.type;
+
+      // ── Core circle radius
+      g.select('circle.core')
+        .attr('r', type === 'hub' ? S.hubR
+                 : (type === 'domain' || type === 'link') ? S.domR
+                 : S.leafR);
+
+      // ── Pulse ring radius (domains only)
+      g.select('circle.pulse-ring').attr('r', S.pulse);
+
+      // ── Hub decorative amber ring
+      if(type === 'hub') {
+        g.selectAll('circle:not(.core):not(.pulse-ring)').attr('r', S.hubRing);
+      }
+
+      // ── Profile image sizing
+      g.select('image')
+        .attr('x', S.imgOff).attr('y', S.imgOff)
+        .attr('width', S.imgSz).attr('height', S.imgSz);
+      g.select('clipPath circle').attr('r', S.imgClip);
+
+      // ── Icon font-size
+      g.select('text.material-symbols-outlined')
+        .style('font-size',
+          type === 'hub'  ? S.hubIcon
+        : (type === 'domain' || type === 'link') ? S.domIcon
+        : S.leafIcon
+        );
+
+      // ── Label: restore full title on desktop, truncate on mobile
+      const maxC  = S.maxLabelChars;
+      const title = d.data.title;
+      const label = g.select('text:not(.material-symbols-outlined)');
+
+      label
+        .text((maxC !== Infinity && title.length > maxC)
+          ? title.slice(0, maxC) + '\u2026'
+          : title
+        )
+        .attr('font-size',
+          type === 'hub' ? S.hubTxt
+        : (type === 'domain' || type === 'link') ? S.domTxt
+        : S.leafTxt
+        )
+        // Reset dy to em-based (fitToScreen will override to px on mobile)
+        .attr('dy', type === 'leaf' ? '0.31em' : '-1.8em')
+        // Leaf x-offset: determine side from sign of d.y (left domains → negative y)
+        .attr('x', () => {
+          if(type !== 'leaf') return 0;
+          return d.y < 0 ? -S.leafX : S.leafX;
+        });
+    });
+  }
+
+  // Re-fit on resize (debounced)
+  let _resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(_resizeTimer);
+    _resizeTimer = setTimeout(() => {
+      const { dx, dy } = getSpacing();
+      treeLayout.nodeSize([dx, dy]);
+      update(root);                  // reposition nodes for new spacing
+      refreshNodeStyles();           // re-apply ns() sizes for current breakpoint
+      setTimeout(() => fitToScreen(true), 420); // re-center + correct fonts on mobile
+    }, 250);
+  });
+
+  // Re-center button handler
+  const recenterBtn = document.getElementById('recenterBtn');
+  if(recenterBtn) recenterBtn.addEventListener('click', () => fitToScreen(true));
+
+  // Generate realistic biological EEG background signal
+  const eegPath = document.getElementById('eeg-path');
+  if(eegPath) {
+    let pts = [];
+    for(let x=0; x<=3000; x+=5) {
+      // Happy Mood EEG: Higher frequency (Beta/Gamma), highly rhythmic and energetic, minimal artifacts
+      let signal = Math.sin(x*0.12)*6 + Math.sin(x*0.25)*4 + Math.sin(x*0.45)*2.5 + Math.sin(x*0.8)*1.5;
+      // Very subtle noise for realism
+      signal += (Math.random()-0.5)*2.5;
+      pts.push(`L ${x} ${60 + signal}`);
+    }
+    let firstHalf = pts.join(" ").replace("L", "M");
+    // duplicate for seamless loop
+    let secondHalf = pts.map(p => {
+      let parts = p.split(" ");
+      return `L ${parseFloat(parts[1]) + 3000} ${parts[2]}`;
+    }).join(" ");
+    eegPath.setAttribute("d", firstHalf + " " + secondHalf);
+  }
+
+  // Close panel if clicked outside
+  d3Canvas.on('click', (event) => {
+    if(!event.target.closest('.node')) closePanel();
+  });
+
+  // Service Worker Registration
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').then(registration => {
+        console.log('SW registered: ', registration);
+      }).catch(registrationError => {
+        console.log('SW registration failed: ', registrationError);
+      });
+    });
+  }
+</script>
+
+  <!-- News Ticker -->
+  <div class="news-ticker-container" role="marquee" aria-live="polite" aria-atomic="false" aria-label="Latest updates">
+    <div class="news-ticker">
+      <span class="ticker-item-1">
+        <span class="material-symbols-outlined ticker-icon">campaign</span>
+        NeuroBench Studio Beta is released. Check out the NeuroTechnology nodes.
+      </span>
+      <span class="ticker-item-2">
+        <span class="material-symbols-outlined ticker-icon">update</span>
+        New Paper: Spatiotemporal Disease Forecasting. See Digital Health → Disease Forecasting.
+      </span>
+      <span class="ticker-item-1">
+        <span class="material-symbols-outlined ticker-icon">emoji_events</span>
+        Marie Skłodowska-Curie NeuroInsight Postdoctoral Fellowship — 2024–2026.
+      </span>
+    </div>
+  </div>
+
+</body>
+</html>
