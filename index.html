@@ -808,7 +808,7 @@
     const activeSvgNode = document.querySelector(`[data-target="${targetKey}"]`);
     if(activeSvgNode) activeSvgNode.classList.add('active-node');
 
-    panelEyebrow.textContent = data.type === 'domain' ? 'Domain' : (data.type === 'link' ? 'External Profile' : 'Achievement / Focus');
+    panelEyebrow.textContent = data.type === 'domain' ? 'Domain' : (data.type === 'link' ? 'Profile' : 'Achievement / Focus');
     panelTitle.textContent = data.title;
     panelDesc.textContent = data.desc;
     panelPortfolio.innerHTML = '';
