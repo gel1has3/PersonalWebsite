@@ -644,7 +644,7 @@
     <div class="seeking-badge" title="Open to: Senior AI Researcher, Applied ML Engineer, Neurotechnology Specialist">
       <span class="seeking-dot"></span>
       <!-- OPEN TO AI/ML &amp; RESEARCH &amp; TECHNICAL  ROLES -->
-      <!-- AI, RESEARCH &amp; INNOVATION -->
+      <!-- INTERESTED IN AI/ML, RESEARCH &amp; INNOVATION -->
     </div>
   </div>
 
@@ -724,7 +724,7 @@
     'agents': { type:'domain', icon:'smart_toy', title:'AGENTIC AI SYSTEMS', desc:'Development of autonomous AI agents designed for specific clinical and geospatial operations.', children:['agents-geo','agents-ifu'] },
     'research': { type:'domain', icon:'science', title:'RESEARCH', desc:'Foundational scientific research driving methodology and technological innovation. Publications span Neurotechnology, Digital Health, and Spatiotemporal AI.', children:['research-meth','research-inno','research-stat','research-data'] },
     'experience': { type:'link', icon:'work_history', title:'EXPERIENCE', desc:'Professional timeline, fellowships, and research affiliations.', color:'#FFB454' },
-    'data-scientist': { type:'domain', icon:'bar_chart', title:'DATA SCIENCE & MULTIMODAL AI', desc:'Applying robust statistical modeling and ML to derive actionable business intelligence.', children:['ds-bi','ds-mkt','ds-cc','ds-ad','ds-multi'] },
+    'data-scientist': { type:'domain', icon:'bar_chart', title:'DATA SCIENCE & MULTIMODAL AI', desc:'Applying robust statistical modeling and ML to derive actionable business intelligence.', children:['ds-bi','ds-mkt-cc','ds-ad','ds-multi'] },
     'digital-health': { type:'domain', icon:'health_and_safety', title:'DIGITAL HEALTH', desc:'Integrating technology into healthcare to optimize patient pathways and clinical decision-making.', children:['dh-cdss','dh-hmis','dh-stdf'] },
     'neurotech': { type:'domain', icon:'neurology', title:'NEUROTECHNOLOGY', desc:'Pioneering work in brain-computer interfaces and foundation models for raw EEG signals.', children:['nt-studio','nt-adhd','nt-sz'] },
     'skills': { type:'link', icon:'construction', title:'SKILLS', desc:'Core competencies, frameworks, and methodologies across AI and healthcare.', color:'#FFB454' },
@@ -742,10 +742,9 @@
     'research-stat': { type:'leaf', icon:'query_stats', parent:'research', title:'STATISTICAL MODELING', desc:'Rigorous quantitative analysis and predictive modeling using Bayesian frameworks and advanced probabilistic graphs.' },
     'research-data': { type:'leaf', icon:'dataset', parent:'research', title:'DATA ANALYSIS', desc:'Extracting deep, actionable insights from high-dimensional datasets utilizing state-of-the-art dimensionality reduction techniques.' },
 
-    'ds-bi': { type:'leaf', icon:'dashboard', parent:'data-scientist', title:'BI DEVELOPMENT', desc:'Creating robust Business Intelligence dashboards and pipelines. Enables executive teams to monitor KPIs in real-time.' },
-    'ds-mkt': { type:'leaf', icon:'campaign', parent:'data-scientist', title:'MARKETING & SALES', desc:'Data-driven insights tailored for market analysis and sales strategy. Predictive lead scoring and churn modeling.' },
-    'ds-cc': { type:'leaf', icon:'support_agent', parent:'data-scientist', title:'CONTACT CENTERS', desc:'Analytics and automation solutions for high-volume contact centers. Real-time sentiment analysis and agent routing.' },
-    'ds-ad': { type:'leaf', icon:'visibility', parent:'data-scientist', title:'AD MONITORING', desc:'Video, audio, and image-based ad matching and tracking systems using sophisticated computer vision and NLP models.' },
+    'ds-bi': { type:'leaf', icon:'dashboard', parent:'data-scientist', title:'BI DEVELOPMENT', desc:'AFT Business Intelligence (AFT BI) encompasses a collection of strategies, technologies, and practices that help organizations analyze their business data and transform it into actionable insights. These insights inform strategic and tactical business decisions.' },
+    'ds-mkt-cc': { type:'leaf', icon:'campaign', parent:'data-scientist', title:'MARKETING, CONTACT CENTER & SALES', desc:'Designed an AI Business Operating System that unifies marketing, customer engagement, sales, revenue, workflows, and business intelligence.' },
+    'ds-ad': { type:'leaf', icon:'visibility', parent:'data-scientist', title:'AD MONITORING', desc:'Designed and developed a Media Monitoring System for tracking video, audio, and image advertisements across TV, radio, and social media.' },
     'ds-multi': { type:'leaf', icon:'hub', parent:'data-scientist', title:'MULTIMODAL AI', desc:'Developing models that process and fuse diverse data modalities including text, images, and time-series signals.' },
 
     'dh-cdss': { type:'leaf', icon:'clinical_notes', parent:'digital-health', title:'CDSS & CLINICAL PATHWAY', desc:'Clinical Decision Support Systems and clinical pathway mapping to reduce bottlenecks and bridge the evidence-practice divide.' },
@@ -768,7 +767,8 @@
     'email': { type:'link', icon:'mail', title:'EMAIL ME', desc:'Get in touch directly via email for collaborations, consulting, or professional inquiries. Click below to open your email client.', url:'mailto:geletaw.sahle@gmail.com', color:'#FFB454' },
     
     'awards': { type:'link', icon:'emoji_events', title:'GRANTS & AWARDS', desc:'A chronological timeline of my academic grants, fellowships, and scholarships.', color:'#FFB454' },
-    'education': { type:'link', icon:'school', title:'EDUCATION', desc:'A timeline of my academic degrees and specialized machine learning certifications.', color:'#FFB454' }
+    'education': { type:'link', icon:'school', title:'EDUCATION', desc:'A timeline of my academic degrees and specialized machine learning certifications.', color:'#FFB454' },
+    'about': { type:'link', icon:'person', title:'ABOUT', desc:'Who I am, what I build, and why the combination of industry delivery and deep academic research defines my work.', color:'#FFB454' }
   };
 
   const sidePanel = document.getElementById('sidePanel');
@@ -987,6 +987,111 @@
       return;
     }
 
+    if(targetKey === 'about') {
+      panelPortfolio.innerHTML = `
+        <div style="margin-top: 24px; font-size: 14px; color: var(--ink); line-height: 1.6; display: flex; flex-direction: column; gap: 20px;">
+          <p>I've built AI for evidence-based decision support across data analytics and neuroscience centres in Dublin, clinical settings in Ethiopia, and research labs in Brussels. In industry, I design business intelligence and media monitoring systems that drive sales and marketing decisions. That range is deliberate.</p>
+
+          <h4 style="color: var(--teal); font-family: var(--mono); font-size: 13px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(79, 216, 196, 0.2); padding-bottom: 4px; margin-top: 8px;">CURRENT RESEARCH</h4>
+          <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+            <p style="font-weight: 600; margin-bottom: 4px; color: var(--ink); font-size: 13px; line-height: 1.4;">Marie Curie Postdoctoral Fellow — Insight SFI Research Centre (DCU) &amp; Visiting Researcher, Trinity College Institute of Neuroscience</p>
+            <p style="color: var(--sub); font-size: 13px; line-height: 1.5;">Current focus is multimodal AI for neurological health — seizure detection from EEG signals and ADHD biomarker identification. Work spans finetuning EEG Foundation Models, deep learning, signal processing, and multimodal fusion, with hands-on experience across the full ML lifecycle, from data pipeline design through model validation and deployment.</p>
+          </div>
+
+          <h4 style="color: var(--teal); font-family: var(--mono); font-size: 13px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(79, 216, 196, 0.2); padding-bottom: 4px; margin-top: 8px;">INDUSTRY DELIVERY</h4>
+          <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+            <p style="font-weight: 600; margin-bottom: 4px; color: var(--ink); font-size: 13px; line-height: 1.4;">Data Science Consultant &amp; IT Team Lead — AFT (Real Estate Property Marketing &amp; Sales)</p>
+            <p style="color: var(--sub); font-size: 13px; line-height: 1.5;">Led a cross-functional team of developers, analysts, and data scientists to build a CRM-based <strong>BI platform</strong> and an <strong>AI-powered media monitoring system</strong>. The BI platform analyzed property stock movement and Customer Purchase Offer flows to drive sales pipeline visibility, funnel analysis, and marketing performance insights. The media monitoring system tracked live ad campaigns across TV, radio, and digital channels — using computer vision and audio recognition solutions that automated ad monitoring and verification at scale.</p>
+          </div>
+
+          <h4 style="color: var(--teal); font-family: var(--mono); font-size: 13px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(79, 216, 196, 0.2); padding-bottom: 4px; margin-top: 8px;">ACADEMIC RESEARCH</h4>
+          <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+            <p style="font-weight: 600; margin-bottom: 4px; color: var(--ink); font-size: 13px; line-height: 1.4;">PhD — Vrije Universiteit Brussel</p>
+            <p style="color: var(--sub); font-size: 13px; line-height: 1.5;">Designed a low-cost clinical decision support point-of-care instrument and validated in a real healthcare setting — not in a simulation or sandbox. Taking AI from concept to proof of principle at the point of care is one of the hardest challenges in low-resource settings, and it has shaped how I approach every project since. Finding were published in JMIR, BMC Medical Informatics & Decision Making, MedInfo, HELINA, etc</p>
+          </div>
+
+          <h4 style="color: var(--teal); font-family: var(--mono); font-size: 13px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(79, 216, 196, 0.2); padding-bottom: 4px; margin-top: 8px;">GLOBAL HEALTH WORK</h4>
+          <ul style="margin: 0; padding-left: 20px; color: var(--sub); display: flex; flex-direction: column; gap: 8px;">
+            <li>Modeling climate-sensitive diseases using spatiotemporal deep learning across Ethiopia.</li>
+            <li>Evaluating digital health systems (Electronic community health information system) deployed in Sub-Saharan Africa using rigorous usability frameworks.</li>
+            <li>Contributing to data triangulation of multi-dataset studies of neonatal deaths.</li>
+          </ul>
+          <p style="font-size: 11px; color: var(--sub); font-family: var(--mono); letter-spacing: 0.3px; margin-top: 2px; font-style: italic;">Selected work — full publications &amp; methodology detail in the <strong style="color:var(--teal);">Digital Health</strong> and <strong style="color:var(--teal);">Google Scholar</strong> nodes.</p>
+
+          <h4 style="color: var(--teal); font-family: var(--mono); font-size: 13px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(79, 216, 196, 0.2); padding-bottom: 4px; margin-top: 8px;">AWARDS &amp; GRANTS</h4>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+              <p style="font-weight: 600; color: var(--ink); font-size: 13px; line-height: 1.4;">Marie Skłodowska-Curie Actions COFUND</p>
+              <p style="color: var(--sub); font-size: 12px; margin-top: 2px; line-height: 1.4;">NeuroInsight Postdoctoral Fellowship — Insight SFI Research Centre, Dublin.</p>
+            </div>
+            <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+              <p style="font-weight: 600; color: var(--ink); font-size: 13px; line-height: 1.4;">Winner — Grand Challenge Ethiopia (GCE)</p>
+              <p style="color: var(--sub); font-size: 12px; margin-top: 2px; line-height: 1.4;">IoT Enabled Maternal Care VT Follow up: Vital Sign Collection &amp; Monitoring System.</p>
+            </div>
+            <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+              <p style="font-weight: 600; color: var(--ink); font-size: 13px; line-height: 1.4;">Best Innovative Poster Prize</p>
+              <p style="color: var(--sub); font-size: 12px; margin-top: 2px; line-height: 1.4;">Global Grand Challenge Summit '19 — Addis Ababa.</p>
+            </div>
+            <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+              <p style="font-weight: 600; color: var(--ink); font-size: 13px; line-height: 1.4;">AlphaGO Poster Prize</p>
+              <p style="color: var(--sub); font-size: 12px; margin-top: 2px; line-height: 1.4;">Deep Learning Indaba 2018 — Stellenbosch University, South Africa.</p>
+            </div>
+            <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+              <p style="font-weight: 600; color: var(--ink); font-size: 13px; line-height: 1.4;">EAI ICAST 2023 Best Paper Award — Track 1</p>
+            </div>
+            <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+              <p style="font-weight: 600; color: var(--ink); font-size: 13px; line-height: 1.4;">NASCERE Full Scholarship</p>
+              <p style="color: var(--sub); font-size: 12px; margin-top: 2px; line-height: 1.4;">Doctoral research fellowship — Vrije Universiteit Brussel, 2018–2022.</p>
+            </div>
+            <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+              <p style="font-weight: 600; color: var(--ink); font-size: 13px; line-height: 1.4;">Black in AI Travel Grant</p>
+              <p style="color: var(--sub); font-size: 12px; margin-top: 2px; line-height: 1.4;">NeurIPS 2018 — Montreal, Canada.</p>
+            </div>
+          </div>
+          <p style="font-size: 12px; color: var(--amber); font-family: var(--mono); letter-spacing: 0.5px; margin-top: 4px; opacity: 0.85;">&#x2605; 10+ Competitive Research, Fellowship &amp; Innovation Grants across 4 countries.</p>
+          <p style="font-size: 11px; color: var(--sub); font-family: var(--mono); letter-spacing: 0.3px; margin-top: 0; font-style: italic;">Selected highlights — full chronological list in the <strong style="color:var(--teal);">Grants &amp; Awards</strong> node.</p>
+          <p style="font-size: 11px; color: var(--sub); font-family: var(--mono); letter-spacing: 0.3px; margin-top: 2px; font-style: italic;">&#128203; Full detail available in CV &nbsp;<span style="background:rgba(79,216,196,0.1); color:var(--teal); border:1px solid rgba(79,216,196,0.3); border-radius:4px; padding:1px 7px; font-size:10px; letter-spacing:0.5px; vertical-align:middle;">CV DOWNLOAD AVAILABLE SOON</span></p>
+
+          <h4 style="color: var(--teal); font-family: var(--mono); font-size: 13px; letter-spacing: 0.5px; border-bottom: 1px solid rgba(79, 216, 196, 0.2); padding-bottom: 4px; margin-top: 8px;">PUBLICATIONS</h4>
+          <p style="color: var(--sub); font-size: 13px; line-height: 1.5; margin-top: -8px;">25+ peer-reviewed publications. Selected venues:</p>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+              <p style="font-weight: 600; color: var(--ink); font-size: 13px; line-height: 1.4;">BioData Mining</p>
+              <p style="color: var(--sub); font-size: 12px; margin-top: 2px; line-height: 1.4;">Data leakage and reported performance in neonatal EEG seizure detection models.</p>
+            </div>
+            <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+              <p style="font-weight: 600; color: var(--ink); font-size: 13px; line-height: 1.4;">JMIR Human Factors</p>
+              <p style="color: var(--sub); font-size: 12px; margin-top: 2px; line-height: 1.4;">AI usability and human-centred digital health systems.</p>
+            </div>
+            <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+              <p style="font-weight: 600; color: var(--ink); font-size: 13px; line-height: 1.4;">PLOS Digital Health</p>
+              <p style="color: var(--sub); font-size: 12px; margin-top: 2px; line-height: 1.4;">Open-access digital health and computational medicine research.</p>
+            </div>
+            <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+              <p style="font-weight: 600; color: var(--ink); font-size: 13px; line-height: 1.4;">BMC Medical Informatics &amp; Decision Making</p>
+              <p style="color: var(--sub); font-size: 12px; margin-top: 2px; line-height: 1.4;">Clinical informatics and AI-assisted decision support.</p>
+            </div>
+            <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+              <p style="font-weight: 600; color: var(--ink); font-size: 13px; line-height: 1.4;">BMJ — FUTURE-AI Consortium</p>
+              <p style="color: var(--sub); font-size: 12px; margin-top: 2px; line-height: 1.4;">AI evaluation frameworks for clinical deployment.</p>
+            </div>
+            <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+              <p style="font-weight: 600; color: var(--ink); font-size: 13px; line-height: 1.4;">MedInfo / HELINA</p>
+              <p style="color: var(--sub); font-size: 12px; margin-top: 2px; line-height: 1.4;">International health informatics conference proceedings.</p>
+            </div>
+          </div>
+          <p style="font-size: 11px; color: var(--sub); font-family: var(--mono); letter-spacing: 0.3px; margin-top: 4px; font-style: italic;">Selected venues only — complete list with citations on <strong style="color:var(--teal);">Google Scholar</strong>.</p>
+          <a href="https://scholar.google.com/citations?user=NbFY4vwAAAAJ" target="_blank" class="btn-teal-xs" style="margin-top: 2px;">VIEW ALL 25+ PUBLICATIONS <span class="material-symbols-outlined" style="font-size:12px;vertical-align:middle;">open_in_new</span></a>
+        </div>
+
+      `;
+      panelMediaContainer.innerHTML = '';
+      sidePanel.classList.add('active');
+      sidePanel.setAttribute('aria-hidden','false');
+      mainView.classList.add('panel-open');
+      return;
+    }
+
     if(targetKey === 'skills') {
       panelPortfolio.innerHTML = `
         <div style="margin-top: 24px; font-size: 14px; color: var(--ink); line-height: 1.6; display: flex; flex-direction: column; gap: 16px; padding-left: 8px;">
@@ -1021,7 +1126,7 @@
           ${tlItem('Sep 2024 – Present','Marie Skłodowska-Curie Postdoctoral Fellow','Insight Research Ireland, Dublin City University.','https://neuroinsight.eu/people/dr-geletaw-sahle-tegenaw/','VIEW PROFILE')}
           ${tlItem('Apr 2025 – Apr 2026','Visiting Researcher','Trinity College Institute of Neurosciences, Trinity College Dublin.','','')}
           ${tlItem('Apr 2023 – Sep 2024','Data Science Consultant & IT Team Lead','Addis Finder Trading (Real-estate Property Marketing and Sales).','https://addisfinders.com/','VIEW')}
-          ${tlItem('Ongoing','Partner & Collaborator','Future AI Partnership — EU Horizon programme supporting AI innovation networks.','https://future-ai.eu/partners/','VIEW PARTNERS')}
+          ${tlItem('2023','Partner & Collaborator','Future AI Partnership — EU Horizon programme supporting AI innovation networks.','https://future-ai.eu/partners/','VIEW PARTNERS')}
           ${tlItem('May 2022 – May 2024','Researcher, AI & Biomedical Imaging Lab','Artificial Intelligence & Biomedical Imaging Research Lab, Jimma University.','http://www.biomai.et/','VISIT LAB')}
           ${tlItem('Aug 2021 – Jan 2024','Digital Health Researcher & Data Scientist','Capacity Building and Mentorship Partnership (CBMP), Jimma University.','','')}
           ${tlItem('May – Sep 2021','Freelance Data Scientist','EPHI, P2P, NDMC, and 10-Academy, Ethiopia.','','')}
@@ -1176,7 +1281,7 @@
     id: 'HUB', icon: 'profile.png', title: 'GST', type: 'hub',
     children: [
       'data-scientist', 'neurotech', 'digital-health', 'agents', 'fm-llm', 'github', 'scholar',
-      'experience', 'education', 'skills', 'awards', 'linkedin', 'email'
+      'about', 'experience', 'education', 'skills', 'awards', 'linkedin', 'email'
     ].map(buildHierarchy)
   };
 
@@ -1341,7 +1446,7 @@
     const links = treeData.links();
 
     // Determine left vs right domains
-    const leftDomains = ['email', 'linkedin', 'awards', 'skills', 'education', 'experience'];
+    const leftDomains = ['about', 'email', 'linkedin', 'awards', 'skills', 'education', 'experience'];
     function isLeft(d) {
       if(d.depth === 0) return false;
       let ancestor = d;
