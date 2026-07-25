@@ -728,6 +728,7 @@
     'digital-health': { type:'domain', icon:'health_and_safety', title:'DIGITAL HEALTH', desc:'Integrating technology into healthcare to optimize patient pathways and clinical decision-making.', children:['dh-cdss','dh-hmis','dh-stdf'] },
     'neurotech': { type:'domain', icon:'neurology', title:'NEUROTECHNOLOGY', desc:'Pioneering work in brain-computer interfaces and foundation models for raw EEG signals.', children:['nt-studio','nt-adhd','nt-sz'] },
     'skills': { type:'link', icon:'construction', title:'SKILLS', desc:'Core competencies, frameworks, and methodologies across AI and healthcare.', color:'#FFB454' },
+    'leadership': { type:'link', icon:'groups', title:'TECHNICAL LEADERSHIP, TEACHING & MENTORING', desc:'Technical Training, Mentorship, and Team Development.', color:'#FFB454' },
 
     'nt-studio': { type:'domain', icon:'hub', title:'NEUROBENCH STUDIO', parent:'neurotech', desc:'A comprehensive suite for neurotechnology development and MLOps.', children:['nt-conv','nt-mlops','nt-rt','nt-site','nt-gh'] },
 
@@ -1124,6 +1125,27 @@
       return;
     }
 
+    if(targetKey === 'leadership') {
+      panelPortfolio.innerHTML = `
+        <div style="margin-top: 24px; font-size: 14px; color: var(--ink); line-height: 1.6; display: flex; flex-direction: column; gap: 16px; padding-left: 8px;">
+          <div style="border-left: 2px solid var(--teal); padding-left: 12px;">
+            <p style="font-weight:700;color:var(--ink);font-size:14px;margin-bottom:4px;">Technical Training</p>
+            <ul style="color:var(--sub);font-size:13px;margin:0;padding-left:16px;line-height:1.5;">
+              <li style="margin-bottom:4px;">Delivered comprehensive training in AI/ML, data science, data structures, and programming to researchers, students, and technical professionals.</li>
+              <li><strong>Digital Health &amp; Health Informatics:</strong> Led specialized sessions covering Health Management Information Systems (HMIS), clinical decision support systems (CDSS), electronic health records (EHRs), health data analytics, and AI-enabled healthcare solutions.</li>
+            </ul>
+          </div>
+          <div style="border-left: 2px solid var(--teal); padding-left: 12px;"><p style="font-weight:700;color:var(--ink);font-size:14px;margin-bottom:4px;">Mentorship</p><p style="color:var(--sub);font-size:13px;">Mentored junior researchers, data scientists, and university students in advanced machine learning, rigorous research methodology, and scalable software development.</p></div>
+          <div style="border-left: 2px solid var(--teal); padding-left: 12px;"><p style="font-weight:700;color:var(--ink);font-size:14px;margin-bottom:4px;">Team Development</p><p style="color:var(--sub);font-size:13px;">Guided cross-functional, multidisciplinary teams through the end-to-end design, development, and deployment of complex AI-driven solutions.</p></div>
+        </div>
+      `;
+      panelMediaContainer.innerHTML = '';
+      sidePanel.classList.add('active');
+      sidePanel.setAttribute('aria-hidden','false');
+      mainView.classList.add('panel-open');
+      return;
+    }
+
     if(targetKey === 'experience') {
       function tlItem(date, role, org, url, urlLabel) {
         return `<div style="position:relative;padding-left:20px;">
@@ -1294,7 +1316,7 @@
     id: 'HUB', icon: 'profile.png', title: 'GST', type: 'hub',
     children: [
       'data-scientist', 'neurotech', 'digital-health', 'agents', 'fm-llm', 'github', 'scholar',
-      'about', 'experience', 'education', 'skills', 'awards', 'linkedin', 'email'
+      'about', 'experience', 'education', 'skills', 'leadership', 'awards', 'linkedin', 'email'
     ].map(buildHierarchy)
   };
 
@@ -1459,7 +1481,7 @@
     const links = treeData.links();
 
     // Determine left vs right domains
-    const leftDomains = ['about', 'email', 'linkedin', 'awards', 'skills', 'education', 'experience'];
+    const leftDomains = ['about', 'email', 'linkedin', 'awards', 'leadership', 'skills', 'education', 'experience'];
     function isLeft(d) {
       if(d.depth === 0) return false;
       let ancestor = d;
